@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Login() {
+function Login({ onNavigate }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -123,14 +123,14 @@ function Login() {
                             </form>
 
                             <div className="create-account-link-container">
-                                <a href="/signup" className="create-account-link">
+                                <button type="button" onClick={() => onNavigate('signup')} className="create-account-link" style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', padding: 0 }}>
                                     Create Account
-                                </a>
+                                </button>
                             </div>
                         </div>
 
                         <div className="forgot-password-container">
-                            <a href="/reset-password" className="forgot-password-link">
+                            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('forgotpassword'); }} className="forgot-password-link">
                                 Forgot Password?
                             </a>
                         </div>

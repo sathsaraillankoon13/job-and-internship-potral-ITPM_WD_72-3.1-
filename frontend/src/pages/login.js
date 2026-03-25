@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Login({ onNavigate }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+function Login({ onNavigate, mockUser }) {
+    // Pre-fill with user state to make presentation seamless
+    const [username, setUsername] = useState(mockUser?.username || '');
+    const [password, setPassword] = useState(mockUser?.password || ''); 
+    const [error, setError] = useState('');
+
+    React.useEffect(() => {
+        if (mockUser) {
+            setUsername(mockUser.username);
+            setPassword(mockUser.password);
+        }
+    }, [mockUser]);
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // Add actual login/authentication logic here
         console.log("Login attempted with:", { username, password });
+        if (mockUser && username === mockUser.username && password === mockUser.password) {
+            setError('');
+            onNavigate('profile');
+        } else {
+            setError(`Invalid credentials. Try ${mockUser?.username} / ${mockUser?.password}`);
+        }
     };
 
     return (
@@ -92,6 +106,7 @@ function Login({ onNavigate }) {
                             </h2>
 
                             <form className="login-form" onSubmit={handleLogin}>
+                                {error && <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', marginBottom: '-1.5rem', marginTop: '-0.5rem', fontWeight: '500' }}>{error}</div>}
                                 <div className="input-group">
                                     <input
                                         type="text"

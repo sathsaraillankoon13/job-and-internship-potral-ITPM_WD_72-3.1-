@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Signup({ onNavigate }) {
+function Signup({ onNavigate, setMockUser }) {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleSignup = (e) => {
         e.preventDefault();
-        console.log("Signup attempted:", { email, username });
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+        
+        // Simulating backend registration logic
+        if (setMockUser) {
+            setMockUser(prev => ({
+                ...prev,
+                email: email,
+                username: username,
+                password: password,
+                // Defaulting personal info
+                firstName: username,
+                lastName: '',
+                university: '',
+                degree: '',
+                bio: '',
+                cvName: null
+            }));
+        }
+        
+        console.log("Account created successfully!");
+        onNavigate('login');
     };
 
     return (
@@ -32,6 +56,7 @@ function Signup({ onNavigate }) {
                             </h2>
 
                             <form className="login-form" style={{ gap: '1.5rem' }} onSubmit={handleSignup}>
+                                {error && <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', marginBottom: '-1rem', marginTop: '-0.5rem', fontWeight: '500' }}>{error}</div>}
                                 <div className="input-group">
                                     <input 
                                         type="email" 

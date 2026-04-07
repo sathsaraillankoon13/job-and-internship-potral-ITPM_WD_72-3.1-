@@ -30,12 +30,3 @@ module.exports = {
   },
   plugins: [],
 };
-
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-

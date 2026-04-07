@@ -13,7 +13,7 @@ import AnalyticsPage from './pages/analytics';
 import { EmployerJobsProvider } from './context/EmployerJobsContext';
 import './styles/App.css';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import ForgotPassword from './pages/forgotpassword';
@@ -107,34 +107,34 @@ function App() {
   const pageContent = renderPage();
 
   return (
+    <>
+      <EmployerJobsProvider>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/opportunities" element={<Opportunities />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
 
-    <EmployerJobsProvider>
+            <Route path="/employer/dashboard" element={<JobInternshipDashboardPage />} />
+            <Route path="/employer/post-job" element={<PostJobPage />} />
+            <Route path="/employer/manage-job-posts" element={<ManageJobPostsPage />} />
+            <Route path="/employer/analytics" element={<AnalyticsPage />} />
+          </Routes>
+        </div>
+      </EmployerJobsProvider>
+
       <div className="App">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/opportunities" element={<Opportunities />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          <Route path="/employer/dashboard" element={<JobInternshipDashboardPage />} />
-          <Route path="/employer/post-job" element={<PostJobPage />} />
-          <Route path="/employer/manage-job-posts" element={<ManageJobPostsPage />} />
-          <Route path="/employer/analytics" element={<AnalyticsPage />} />
-        </Routes>
+        {isInternalPage ? (
+          <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userData={loggedUser} onLogout={handleLogout}>
+            {pageContent}
+          </MainLayout>
+        ) : (
+          pageContent
+        )}
       </div>
-    </EmployerJobsProvider>
-
-    <div className="App">
-      {isInternalPage ? (
-        <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userData={loggedUser} onLogout={handleLogout}>
-          {pageContent}
-        </MainLayout>
-      ) : (
-        pageContent
-      )}
-    </div>
-
+    </>
   );
 }
 

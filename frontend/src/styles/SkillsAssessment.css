@@ -1,0 +1,144 @@
+/* SkillsAssessment Styles */
+.assessment-container {
+  @apply flex-1 bg-[#D0E7FF] w-full flex flex-col font-sans mb-16 text-slate-900;
+}
+
+.assessment-layout {
+  @apply max-w-7xl mx-auto w-full px-6 lg:px-10 pt-6 flex flex-col lg:flex-row gap-6 pb-12;
+}
+
+/* Left Column: Question Stack */
+.assessment-left-col {
+  @apply flex-1 flex flex-col gap-5;
+}
+
+.timer-card-wrapper {
+  @apply flex flex-col md:flex-row md:items-end justify-between gap-4 px-1;
+}
+
+.assessment-header-title {
+  @apply text-2xl font-extrabold text-slate-900 tracking-tight leading-tight;
+}
+
+.assessment-header-subtitle {
+  @apply text-slate-400 font-bold text-[12px] uppercase tracking-widest mt-1 flex items-center gap-2;
+}
+
+.timer-card {
+  @apply bg-white border border-slate-200 rounded-xl py-2 px-4 flex items-center gap-3 shadow-sm;
+}
+
+.timer-icon {
+  @apply text-red-500;
+}
+
+.timer-text {
+  @apply text-xl font-bold text-red-600 tracking-tight tabular-nums;
+}
+
+/* Main Question Card */
+.question-card {
+  @apply bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-200 relative overflow-hidden;
+}
+
+.question-badge {
+  @apply inline-block bg-blue-50 text-blue-600 font-bold text-[11px] px-3 py-1 rounded-lg mb-6 uppercase tracking-wider border border-blue-100;
+}
+
+.question-text {
+  @apply text-xl md:text-2xl font-extrabold text-slate-900 leading-tight mb-8 tracking-tight;
+}
+
+.options-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-3;
+}
+
+.option-btn {
+  @apply p-4 rounded-xl border-2 text-left transition-all duration-200 flex items-center justify-between;
+}
+
+.option-btn-active {
+  @apply bg-blue-50 border-blue-600 scale-[1.01] text-blue-700 shadow-sm;
+}
+
+.option-btn-correct {
+  @apply bg-emerald-50 border-emerald-600 scale-[1.01] text-emerald-700 shadow-sm !important;
+}
+
+.option-btn-incorrect {
+  @apply bg-red-50 border-red-600 scale-[1.01] text-red-700 shadow-sm !important;
+}
+
+.option-btn-inactive {
+  @apply bg-slate-50 border-slate-100 hover:border-slate-300 hover:bg-white;
+}
+
+.option-content {
+  @apply flex items-center gap-4;
+}
+
+.option-indicator {
+  @apply w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[14px] transition-colors border;
+}
+
+.option-text {
+  @apply font-bold text-[14px] transition-colors leading-tight;
+}
+
+/* Navigation Footer */
+.assessment-nav-footer {
+  @apply flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-100;
+}
+
+.action-btn-back {
+  @apply flex items-center gap-2 text-slate-400 font-bold text-[13px] hover:text-slate-600 transition-colors;
+}
+
+.action-btn-next {
+  @apply flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold text-[14px] shadow-md shadow-blue-100 transition-all active:scale-95;
+}
+
+/* Right Column: Progress & Info */
+.assessment-right-col {
+  @apply w-full lg:w-[320px] flex flex-col gap-5;
+}
+
+.progress-card {
+  @apply bg-emerald-50 rounded-3xl p-6 border border-emerald-100 shadow-sm;
+}
+
+.progress-header {
+  @apply flex justify-between items-end mb-4;
+}
+
+.progress-count {
+  @apply text-3xl font-bold text-slate-900 leading-none tracking-tight;
+}
+
+.progress-total {
+  @apply text-slate-400 text-[14px] font-bold;
+}
+
+.progress-percentage {
+  @apply text-[10px] font-bold text-emerald-600 uppercase tracking-widest bg-white px-2.5 py-1 rounded-lg border border-emerald-100;
+}
+
+.progress-bar-container {
+  @apply w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5 flex;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out;
+}
+
+.module-list {
+  @apply space-y-2;
+}
+
+.module-item {
+  @apply flex items-center gap-2.5 p-2 rounded-lg border border-slate-50 bg-slate-50 transition-colors text-[13px] font-medium;
+}
+
+.info-card {
+  @apply bg-[#004b92] rounded-3xl p-6 text-white relative overflow-hidden shadow-lg;
+}

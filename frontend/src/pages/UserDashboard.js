@@ -1,162 +1,391 @@
-import React, { useState } from "react";
-import { MessageSquare, Mic, Brain, FileText, Bot } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import {
+  Search,
+  Bell,
+  User,
+  ArrowRight,
+  Rocket,
+  Database,
+  Calendar,
+  Clipboard,
+  Video,
+  MessageSquare,
+  Bookmark,
+  TrendingUp,
+  Plus,
+  Trophy,
+  Star,
+  Target,
+  History,
+  AlertCircle
+} from 'lucide-react';
+
+import '../styles/UserDashboard.css';
+import ReadinessScoreCard from '../components/ReadinessScoreCard';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
 
 const UserDashboard = () => {
-  const [progress] = useState(75);
-  const [mockCount] = useState(5);
-  const [skillsImproved] = useState(4);
-  const [applications] = useState(12);
-  const [started, setStarted] = useState(false);
-  const [input, setInput] = useState("");
+  const [timelineItems, setTimelineItems] = useState([]);
 
-  const [messages, setMessages] = useState([
-    { text: "🤖 How can I help you today?", type: "bot" },
-    { text: "💬 How can I improve my resume?", type: "bot" },
-  ]);
+  useEffect(() => {
+    let isMounted = true;
 
-  const jobs = [
-    { title: "Software Developer", company: "TechCorp" },
-    { title: "Marketing Intern", company: "CreativeCo" },
-    { title: "Data Analyst", company: "Insights Inc." },
-  ];
+    const formatDate = (dateValue) => {
+      if (!dateValue) return 'Recently';
+      return new Date(dateValue).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    };
 
-  const skills = [
-    { name: "Communication", value: 60 },
-    { name: "Coding Skills", value: 85 },
-    { name: "Problem Solving", value: 75 },
-  ];
+    const loadTimeline = async () => {
+      try {
+        const userId = localStorage.getItem('userId') || 'guest_user';
 
-  const handleStart = () => {
-    setStarted(true);
-    setTimeout(() => setStarted(false), 3000);
-  };
+        const [assessmentResult, interviewResult, jobsResult] = await Promise.allSettled([
+          axios.get(`${API_BASE_URL}/api/questions/history/${userId}`),
+          axios.get(`${API_BASE_URL}/api/interview/history/${userId}`),
+          axios.get(`${API_BASE_URL}/api/jobs/recommended`),
+        ]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const newMessages = [...messages, { text: input, type: "user" }];
-    setMessages(newMessages);
-    setInput("");
+        const assessmentHistory =
+          assessmentResult.status === 'fulfilled' && Array.isArray(assessmentResult.value?.data)
+            ? assessmentResult.value.data
+            : [];
 
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { text: "🤖 Thanks for your question! Keep practicing your skills.", type: "bot" },
-      ]);
-    }, 1000);
-  };
+        const interviewHistory =
+          interviewResult.status === 'fulfilled' && Array.isArray(interviewResult.value?.data)
+            ? interviewResult.value.data
+            : [];
+
+        const recommendedJobs =
+          jobsResult.status === 'fulfilled' && Array.isArray(jobsResult.value?.data?.data)
+            ? jobsResult.value.data.data
+            : [];
+
+        const items = [];
+
+        if (assessmentHistory.length > 0) {
+          const latestAssessment = assessmentHistory[0];
+          items.push({
+            title: `Assessment: ${latestAssessment.quizTitle || 'Recent Assessment'}`,
+            meta: `${formatDate(latestAssessment.date)} • ${latestAssessment.percentage || 0}% Score`,
+            status: latestAssessment.status || 'Completed',
+            icon: Calendar,
+            color: '#2563eb',
+          });
+        }
+
+        if (interviewHistory.length > 0) {
+          const latestInterview = interviewHistory[0];
+          items.push({
+            title: `Interview: ${latestInterview.pathway || latestInterview.skill || 'Mock Session'}`,
+            meta: `${formatDate(latestInterview.date)} • ${latestInterview.type || 'Technical'}`,
+            status: 'Reviewed',
+            icon: Video,
+            color: '#4338ca',
+          });
+        }
+
+        if (recommendedJobs.length > 0) {
+          const topJob = recommendedJobs[0];
+          items.push({
+            title: `Recommended: ${topJob.title}`,
+            meta: `${topJob.company} • ${topJob.location}`,
+            status: 'Matched',
+            icon: Target,
+            color: '#059669',
+          });
+        }
+
+        if (items.length === 0) {
+          items.push(
+            {
+              title: 'Complete your first assessment',
+              meta: 'Live timeline will appear after your first result is saved',
+              status: 'Pending',
+              icon: Trophy,
+              color: '#2563eb',
+            },
+            {
+              title: 'Start a mock interview',
+              meta: 'Interview results will update this timeline automatically',
+              status: 'Pending',
+              icon: Video,
+              color: '#4338ca',
+            },
+            {
+              title: 'Open Smart Recommendations',
+              meta: 'Matched jobs will appear here from the database',
+              status: 'Pending',
+              icon: Target,
+              color: '#059669',
+            }
+          );
+        }
+
+        if (isMounted) {
+          setTimelineItems(items.slice(0, 3));
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard timeline:', error);
+        if (isMounted) {
+          setTimelineItems([
+            {
+              title: 'Unable to load live data',
+              meta: 'Check whether the backend is running',
+              status: 'Error',
+              icon: AlertCircle,
+              color: '#dc2626',
+            },
+          ]);
+        }
+      }
+    };
+
+    loadTimeline();
+    const refreshTimer = setInterval(loadTimeline, 60000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(refreshTimer);
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        {/* Career Progress Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-start">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Career Progress</h3>
-          <div className="relative w-32 h-32 self-center mb-6">
-            <div 
-              className="w-full h-full rounded-full flex items-center justify-center"
-              style={{
-                background: `conic-gradient(#22c55e 0% ${progress}%, #f3f4f6 ${progress}% 100%)`,
-              }}
-            >
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-inner">
-                <span className="text-2xl font-bold text-gray-800">{progress}%</span>
+    <div className="dashboard-container">
+
+      <div className="dashboard-content">
+        {/* Isolated Dashboard Control Card */}
+        <div className="dashboard-control-card">
+          <div className="search-wrapper">
+            <Search className="search-icon" size={14} strokeWidth={2.5} />
+            <input
+              type="text"
+              placeholder="Search internships, skills, or mentors..."
+              className="search-input"
+            />
+          </div>
+        </div>
+
+        {/* Welcome Section */}
+          <div className="welcome-section">
+          <div>
+            <h2 className="welcome-title">Welcome back, Sathsara..</h2>
+            <p className="welcome-subtitle">
+              You are in the <span className="top-percent-badge">Top 5%</span> of computer science applicants this week.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Link to="/mock-interview">
+              <button className="btn-primary-gradient">
+                Start Mock Interview
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="dashboard-grid">
+
+          {/* LEFT COLUMN - Stats & Profile */}
+          <div className="column-left">
+
+            {/* Profile Completion removed */}
+            {/* Readiness Score */}
+            <ReadinessScoreCard />
+
+            {/* AI Chat Preview (moved under Readiness) */}
+            <div className="mt-6">
+              <div className="card-ai group p-4 rounded-md border border-slate-100 bg-white">
+                <h3 className="section-title-large text-slate-900 mb-3">AI Assistant</h3>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-md bg-blue-50 flex items-center justify-center text-blue-600">
+                    <MessageSquare size={18} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-slate-900">AI Career Assistant</p>
+                    <p className="text-[12px] text-slate-500">Quick answers, roadmaps, and interview tips.</p>
+                  </div>
+                </div>
+                <div className="chat-preview h-36 overflow-auto text-[13px] text-slate-600 mb-3 p-2 rounded-md bg-slate-50">
+                  <p className="mb-2"><strong>You:</strong> Tell me about Technical Skills for backend</p>
+                  <p className="mb-1"><strong>AI:</strong> Focus on system design, databases, API design — practice projects and algorithms.</p>
+                </div>
+                <div className="flex gap-2">
+                  <Link to="/ai-assistant" className="flex-1">
+                    <button className="btn-primary-gradient w-full">Open Chat</button>
+                  </Link>
+                  <Link to="/ai-assistant" className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    <MessageSquare size={16} />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-          <div className="space-y-3 text-sm text-gray-600 w-full">
-            <div className="flex items-center gap-2"><Mic size={16} /> Mock Interviews: {mockCount}</div>
-            <div className="flex items-center gap-2"><Brain size={16} /> Skills Improved: {skillsImproved}</div>
-            <div className="flex items-center gap-2"><FileText size={16} /> Applications: {applications}</div>
-          </div>
-        </div>
 
-        {/* Virtual Mock Interview Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Virtual Mock Interview</h3>
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
-            alt="Bot"
-            className="w-40 h-40 object-contain my-4"
-          />
-          <p className="text-gray-600 text-sm mb-6">
-            {started ? "Interview Started... Good Luck!" : "Practice real interview questions"}
-          </p>
-          <button 
-            onClick={handleStart}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md"
-          >
-            {started ? "In Progress..." : "Start Mock Interview"}
-          </button>
-        </div>
+          {/* RIGHT COLUMN - Matrix & Opportunities */}
+          <div className="column-right">
 
-        {/* Job Recommendations Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Job Recommendations</h3>
-          <div className="space-y-4 mb-6">
-            {jobs.map((job, idx) => (
-              <div key={idx} className="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
-                <span className="font-medium text-gray-700">{job.title}</span>
-                <span className="text-blue-600 font-semibold">{job.company}</span>
+            {/* Skill Matrix */}
+            <div className="card-cyan group">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="section-title-large text-white">Skill Matrix</h3>
+                <Link to="/skill-selection" className="text-[11px] font-bold text-blue-600 flex items-center gap-1.5 hover:text-blue-700 transition-colors">
+                  Take New Assessment <ArrowRight size={14} strokeWidth={3} />
+                </Link>
               </div>
-            ))}
-          </div>
-          <button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-all">
-            View All Jobs
-          </button>
-        </div>
 
-        {/* Career Advice Chatbot Card */}
-        <div className="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Career Advice Chatbot</h3>
-          <div className="h-48 overflow-y-auto space-y-3 mb-4 pr-2 custom-scrollbar">
-            {messages.map((msg, idx) => (
-              <div 
-                key={idx} 
-                className={`p-3 rounded-xl text-sm w-fit max-w-[80%] ${
-                  msg.type === "bot" ? "bg-gray-100 text-gray-700" : "bg-blue-600 text-white ml-auto"
-                }`}
-              >
-                {msg.text}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                {[
+                  { name: 'Cloud Architecture', value: 94, color: 'bg-blue-600' },
+                  { name: 'Algorithmic Logic', value: 88, color: 'bg-blue-500' },
+                  { name: 'Data Engineering', value: 76, color: 'bg-blue-400' },
+                  { name: 'UX Strategy', value: 62, color: 'bg-indigo-400' },
+                ].map((skill, i) => (
+                  <div key={i} className="skill-item">
+                    <div className="flex justify-between items-end mb-2">
+                      <span className="text-[13px] font-bold text-white">{skill.name}</span>
+                      <span className="text-[12px] font-bold text-blue-400">{skill.value}%</span>
+                    </div>
+                    <div className="skill-bar-bg">
+                      <div
+                        className={`${skill.color} h-full rounded-full transition-all duration-500`}
+                        style={{ width: `${skill.value}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Ask a question..."
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            />
-            <button 
-              onClick={handleSend}
-              className="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-all"
-            >
-              Ask
-            </button>
-          </div>
-        </div>
+            </div>
 
-        {/* Analytics Card */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Your Progress & Analytics</h3>
-          <div className="space-y-6">
-            {skills.map((skill, idx) => (
-              <div key={idx}>
-                <div className="text-sm font-medium text-gray-700 mb-2">{skill.name}</div>
-                <div className="w-full bg-gray-100 rounded-full h-2.5">
-                  <div 
-                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-500" 
-                    style={{ width: `${skill.value}%` }}
-                  ></div>
+            {/* Curated Opportunities */}
+            <div>
+              <div className="flex justify-between items-center mb-5 pl-1">
+                <h3 className="section-title-large text-slate-800">Curated Opportunities</h3>
+                <Link to="/recommendations" className="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-wider">
+                  View all
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Job Card 1 */}
+                <div className="card-job-blue group">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                      <Rocket size={20} strokeWidth={2.5} />
+                    </div>
+                    <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider">
+                      New Match
+                    </span>
+                  </div>
+                  <h4 className="text-[15px] font-bold text-slate-900 mb-1 leading-tight">Junior DevOps Architect</h4>
+                  <p className="text-[12px] text-slate-400 mb-4 font-medium">Stellar Systems • Remote</p>
+
+                  <div className="flex gap-1.5 mb-6 flex-wrap">
+                    <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-slate-500 rounded-md text-[9px] font-bold">Kubernetes</span>
+                    <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-slate-500 rounded-md text-[9px] font-bold">AWS</span>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button className="flex-1 bg-blue-600 text-white font-bold text-[12px] py-2.5 rounded-lg hover:bg-blue-700 transition-all">
+                      Apply Now
+                    </button>
+                    <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-100 text-slate-400 hover:text-blue-600 transition-all">
+                      <Bookmark size={16} strokeWidth={2.5} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Job Card 2 */}
+                <div className="card-job-slate group">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500">
+                      <Database size={20} strokeWidth={2.5} />
+                    </div>
+                    <span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider">
+                      4 Days Left
+                    </span>
+                  </div>
+                  <h4 className="text-[15px] font-bold text-slate-900 mb-1 leading-tight">Backend Engineering Intern</h4>
+                  <p className="text-[12px] text-slate-400 mb-4 font-medium">Apex Analytics • NY</p>
+
+                  <div className="flex gap-1.5 mb-6 flex-wrap">
+                    <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-slate-500 rounded-md text-[9px] font-bold">Python</span>
+                    <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-slate-500 rounded-md text-[9px] font-bold">PostgreSQL</span>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button className="flex-1 bg-slate-900 text-white font-bold text-[12px] py-2.5 rounded-lg hover:bg-blue-600 transition-all">
+                      Apply Now
+                    </button>
+                    <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-100 text-slate-400 hover:text-blue-600 transition-all">
+                      <Bookmark size={16} strokeWidth={2.5} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            ))}
+              {/* AI Assistant Quick Access */}
+              <div className="mt-6">
+                <div className="card-ai group p-5 rounded-md border border-slate-100 bg-white">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                      <MessageSquare size={20} />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-[15px] font-bold text-slate-900 mb-1">AI Career Assistant</h4>
+                      <p className="text-[12px] text-slate-400">Ask about skills, roadmaps, interview tips, or request a fast summary.</p>
+                    </div>
+                    <div>
+                      <Link to="/ai-assistant">
+                        <button className="btn-primary-gradient">Open Chat</button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Career Timeline with AI Chat preview */}
+            <div className="card-white flex-1 relative overflow-hidden">
+              <div className="flex gap-6">
+                
+
+                {/* Right: Career Timeline */}
+                <div className="flex-1">
+                  <h3 className="section-title-large text-slate-900 mb-6">Career Timeline</h3>
+
+                  <div className="relative">
+                    <div className="timeline-line"></div>
+                    <div className="space-y-6">
+                      {timelineItems.map((item, i) => (
+                        <div key={i} className="flex items-center gap-4 relative">
+                          <div
+                            className="w-12 h-12 rounded-xl flex items-center justify-center relative z-10 border shadow-sm"
+                            style={{ backgroundColor: `${item.color}12`, color: item.color, borderColor: `${item.color}24` }}
+                          >
+                            <item.icon size={18} />
+                          </div>
+                          <div className="flex-1 bg-white/60 px-4 py-3 rounded-xl border border-blue-100 flex justify-between items-center transition-all hover:bg-white/80">
+                            <div>
+                              <h4 className="font-bold text-slate-900 text-[14px]">{item.title}</h4>
+                              <p className="text-[11px] font-medium text-slate-500 mt-0.5">{item.meta}</p>
+                            </div>
+                            <span
+                              className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md"
+                              style={{ color: item.color, backgroundColor: `${item.color}12` }}
+                            >
+                              {item.status}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );

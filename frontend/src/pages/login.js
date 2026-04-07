@@ -98,10 +98,7 @@ function Login({ onNavigate, setLoggedUser }) {
                 {/* Right Side: Login Form */}
                 <div className="login-right">
 
-                    {/* "Welcome back" tag */}
-                    <div className="welcome-tag">
-                        Welcome back
-                    </div>
+                    {/* Removed welcome tag */}
 
                     <div className="login-form-container">
 

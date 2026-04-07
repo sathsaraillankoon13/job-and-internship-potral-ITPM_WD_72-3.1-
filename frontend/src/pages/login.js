@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Login() {
+function Login({ onNavigate, setLoggedUser }) {
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState(''); 
+    const [error, setError] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Add actual login/authentication logic here
-        console.log("Login attempted with:", { username, password });
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setError('');
+                if (setLoggedUser) setLoggedUser(data);
+                console.log("Login successful");
+                onNavigate('dashboard');
+            } else {
+                setError(data.message || 'Invalid credentials');
+            }
+        } catch (err) {
+            setError('Could not connect to server.');
+        }
     };
 
     return (
@@ -79,10 +98,7 @@ function Login() {
                 {/* Right Side: Login Form */}
                 <div className="login-right">
 
-                    {/* "Welcome back" tag */}
-                    <div className="welcome-tag">
-                        Welcome back
-                    </div>
+                    {/* Removed welcome tag */}
 
                     <div className="login-form-container">
 
@@ -92,6 +108,7 @@ function Login() {
                             </h2>
 
                             <form className="login-form" onSubmit={handleLogin}>
+                                {error && <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', marginBottom: '-1.5rem', marginTop: '-0.5rem', fontWeight: '500' }}>{error}</div>}
                                 <div className="input-group">
                                     <input
                                         type="text"
@@ -123,14 +140,14 @@ function Login() {
                             </form>
 
                             <div className="create-account-link-container">
-                                <a href="/signup" className="create-account-link">
+                                <button type="button" onClick={() => onNavigate('signup')} className="create-account-link" style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', padding: 0 }}>
                                     Create Account
-                                </a>
+                                </button>
                             </div>
                         </div>
 
                         <div className="forgot-password-container">
-                            <a href="/reset-password" className="forgot-password-link">
+                            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('forgotpassword'); }} className="forgot-password-link">
                                 Forgot Password?
                             </a>
                         </div>

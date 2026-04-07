@@ -1,0 +1,162 @@
+.page {
+  min-height: 100vh;
+  background-color: #f0f8fc;
+  color: #0f172a;
+}
+
+.mainContent {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.maxWidth {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.headerSection {
+  margin-bottom: 1.5rem;
+  border-radius: 1.875rem;
+  border: 1px solid #e0f2fe;
+  background: white;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  margin-top: 0.5rem;
+  font-size: 1.875rem;
+  font-weight: 900;
+}
+
+.sectionTitleHighlight {
+  color: #0284c7;
+}
+
+.filterSection {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-radius: 1.5rem;
+  border: 1px solid #e0f2fe;
+  background: white;
+  padding: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput {
+  height: 2.75rem;
+  min-width: 15rem;
+  flex: 1;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #0284c7;
+}
+
+.filterButton {
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: white;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterButton:hover,
+.filterButton.active {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  color: #0284c7;
+}
+
+.jobGrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .jobGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .jobGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.jobCard {
+  border-radius: 1rem;
+  border: 1px solid rgba(206, 216, 226, 0.6);
+  padding: 1.25rem;
+  color: white;
+  background: linear-gradient(145deg, #1d3f75, #1f4f93 55%, #2a5da8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.jobCardTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: white;
+}
+
+.jobCardCompany {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: rgba(206, 232, 255, 1);
+}
+
+.jobCardTags {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.jobCardTag {
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.jobCardFooter {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 0.75rem;
+}
+
+.applyButton {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  border-radius: 0.375rem;
+  transition: opacity 0.2s;
+}
+
+.applyButton:hover {
+  opacity: 0.9;
+}

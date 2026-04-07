@@ -1,0 +1,162 @@
+/* frontend/src/styles/AdminDashboard.css */
+.admin-dashboard-container {
+    padding: 20px 0;
+    width: 100%;
+}
+
+.admin-header {
+    margin-bottom: 30px;
+}
+
+.admin-header h2 {
+    color: #1E293B;
+    margin: 0 0 8px 0;
+    font-size: 1.8rem;
+}
+
+.admin-header p {
+    color: #64748B;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Metric Cards */
+.admin-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.admin-metric-card {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+.metric-icon {
+    font-size: 2rem;
+    padding: 16px;
+    border-radius: 50%;
+    background: #EFF6FF;
+}
+
+.admin-metric-card:nth-child(1) .metric-icon { color: #3B82F6; background: #DBEAFE; }
+.admin-metric-card:nth-child(2) .metric-icon { color: #10B981; background: #D1FAE5; }
+.admin-metric-card:nth-child(3) .metric-icon { color: #F59E0B; background: #FEF3C7; }
+.admin-metric-card:nth-child(4) .metric-icon { color: #8B5CF6; background: #EDE9FE; }
+
+.metric-info h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #1E293B;
+}
+
+.metric-info p {
+    margin: 4px 0 0 0;
+    color: #64748B;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Tables Section */
+.admin-tables-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.admin-table-card {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+
+.admin-table-card h3 {
+    margin: 0 0 20px 0;
+    color: #1E293B;
+    font-size: 1.3rem;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 12px 16px;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 2px solid #E2E8F0;
+    background: #F8FAFC;
+}
+
+.admin-table td {
+    padding: 16px;
+    border-bottom: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover td {
+    background: #F8FAFC;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-badge.active { background: #DCFCE7; color: #16A34A; }
+.status-badge.pending { background: #FEF3C7; color: #D97706; }
+.status-badge.suspended { background: #FEE2E2; color: #DC2626; }
+
+/* Actions */
+.admin-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    margin-right: 8px;
+}
+
+.admin-action-btn:last-child {
+    margin-right: 0;
+}
+
+.admin-action-btn.approve { color: #16A34A; }
+.admin-action-btn.approve:hover { background: #DCFCE7; }
+
+.admin-action-btn.reject { color: #DC2626; }
+.admin-action-btn.reject:hover { background: #FEE2E2; }
+
+.admin-action-btn.edit { color: #3B82F6; }
+.admin-action-btn.edit:hover { background: #DBEAFE; }

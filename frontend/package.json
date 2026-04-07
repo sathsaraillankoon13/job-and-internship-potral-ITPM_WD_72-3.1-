@@ -7,10 +7,14 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
+
     "axios": "1.6",
     "es-toolkit": "^1.45.1",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
+
+    "lucide-react": "^0.577.0",
+
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^6.30.3",
@@ -41,5 +45,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19"
   }
 }

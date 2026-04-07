@@ -1,0 +1,228 @@
+.feedback-layout-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    height: 100%;
+}
+
+.feedback-content-card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 10px 15px -3px rgba(0,0,0,0.05);
+    border: 1px solid #E2E8F0;
+    text-align: center;
+}
+
+.feedback-header {
+    margin-bottom: 32px;
+}
+
+.feedback-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    display: inline-block;
+    background: #FEF3C7;
+    padding: 16px;
+    border-radius: 50%;
+    color: #F59E0B;
+}
+
+.feedback-header h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.8rem;
+    color: #1E293B;
+}
+
+.feedback-header p {
+    margin: 0;
+    color: #64748B;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.star-rating-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 3.5rem;
+    color: #E2E8F0;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+.star-btn:hover {
+    transform: scale(1.1);
+}
+
+.star-btn.active {
+    color: #FBBF24;
+    filter: drop-shadow(0 0 8px rgba(251,191,36,0.4));
+}
+
+.feedback-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.feedback-input-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.feedback-input-group textarea {
+    padding: 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #F8FAFC;
+    resize: vertical;
+}
+
+.feedback-input-group textarea:focus {
+    outline: none;
+    border-color: #2563EB;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.primary-btn.stretch {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.05rem;
+}
+
+.primary-btn:disabled {
+    background: #94A3B8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.primary-btn:disabled:hover {
+    background: #94A3B8;
+    transform: none;
+}
+
+.feedback-success-state {
+    padding: 20px 0;
+}
+
+.success-icon-large {
+    width: 80px;
+    height: 80px;
+    background: #DCFCE7;
+    color: #16A34A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 auto 24px auto;
+}
+
+.feedback-success-state h2 {
+    color: #1E293B;
+    margin: 0 0 12px 0;
+    font-size: 1.8rem;
+}
+
+.feedback-success-state p {
+    color: #64748B;
+    margin: 0 0 32px 0;
+    line-height: 1.6;
+}
+
+.mt-4 {
+    margin-top: 16px;
+}
+
+/* Feedback List Styles */
+.feedback-list-container {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.feedback-list-container h3 {
+    text-align: left;
+    color: #1E293B;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feedback-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feedback-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.feedback-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: #334155;
+    font-size: 1rem;
+}
+
+.feedback-date {
+    font-size: 0.8rem;
+    color: #94A3B8;
+    margin-top: 2px;
+}
+
+.feedback-item-stars {
+    color: #FBBF24;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.feedback-item-comment {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+

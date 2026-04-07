@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Login({ onNavigate, mockUser }) {
-    // Pre-fill with user state to make presentation seamless
-    const [username, setUsername] = useState(mockUser?.username || '');
-    const [password, setPassword] = useState(mockUser?.password || ''); 
+function Login({ onNavigate, setLoggedUser }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState(''); 
     const [error, setError] = useState('');
 
-    React.useEffect(() => {
-        if (mockUser) {
-            setUsername(mockUser.username);
-            setPassword(mockUser.password);
-        }
-    }, [mockUser]);
-
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Login attempted with:", { username, password });
-        if (mockUser && username === mockUser.username && password === mockUser.password) {
-            setError('');
-            onNavigate('dashboard');
-        } else {
-            setError(`Invalid credentials. Try ${mockUser?.username} / ${mockUser?.password}`);
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setError('');
+                if (setLoggedUser) setLoggedUser(data);
+                console.log("Login successful");
+                onNavigate('dashboard');
+            } else {
+                setError(data.message || 'Invalid credentials');
+            }
+        } catch (err) {
+            setError('Could not connect to server.');
         }
     };
 

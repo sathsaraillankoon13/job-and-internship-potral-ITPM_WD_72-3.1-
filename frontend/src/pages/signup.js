@@ -1,37 +1,45 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
 
-function Signup({ onNavigate, setMockUser }) {
+function Signup({ onNavigate, setLoggedUser }) {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
         
-        if (setMockUser) {
-            setMockUser(prev => ({
-                ...prev,
-                email: email,
-                username: username,
-                password: password,
-                firstName: username,
-                lastName: '',
-                university: '',
-                degree: '',
-                bio: '',
-                cvName: null
-            }));
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    username, 
+                    email, 
+                    password,
+                    firstName: username,
+                    lastName: " " 
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (setLoggedUser) setLoggedUser(data);
+                console.log("Account created successfully!");
+                onNavigate('dashboard');
+            } else {
+                setError(data.message || 'Signup failed');
+            }
+        } catch (err) {
+            setError('Could not connect to server.');
         }
-        
-        console.log("Account created successfully!");
-        onNavigate('login');
     };
 
     return (

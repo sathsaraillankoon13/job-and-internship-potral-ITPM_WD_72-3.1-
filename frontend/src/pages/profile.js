@@ -33,10 +33,42 @@ function Profile({ onNavigate, userData: propUserData, setUserData }) {
         }
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        if (setUserData) setUserData({...tempData});
-        setIsEditing(false);
+        try {
+            // Need the logged in user's ID
+            if (!actualUser._id) {
+                console.error("No user ID found, cannot update profile");
+                if (setUserData) setUserData({...tempData}); // Fallback
+                setIsEditing(false);
+                return;
+            }
+
+            const response = await fetch(`http://localhost:5000/api/users/profile/${actualUser._id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: tempData.firstName,
+                    lastName: tempData.lastName,
+                    university: tempData.university,
+                    degree: tempData.degree,
+                    bio: tempData.bio
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (setUserData) setUserData(data); // Provide updated database data
+                setIsEditing(false);
+                alert('Profile updated successfully!');
+            } else {
+                alert('Error updating profile: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error connecting to backend:', error);
+            alert('Failed to connect to backend.');
+        }
     };
 
     const handleChange = (e) => {

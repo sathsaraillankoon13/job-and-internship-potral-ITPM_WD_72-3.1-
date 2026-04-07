@@ -5,48 +5,53 @@ import ForgotPassword from './pages/forgotpassword';
 import Feedback from './pages/feedback';
 import Profile from './pages/profile';
 import Dashboard from './pages/dashboard';
+import AdminDashboard from './pages/adminDashboard';
 import MainLayout from './components/MainLayout';
 import './App.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
   
-  // Shared state to simulate a backend database for the presentation
-  const [mockUser, setMockUser] = useState({
-    firstName: 'Student',
-    lastName: 'Example',
-    email: 'student@example.edu',
-    username: 'student',
-    password: '1234',
-    university: 'Example University',
-    degree: 'BSc Computer Science',
-    bio: 'I am a third-year computer science student looking for a software engineering internship. I love solving problems and building modern web applications.',
-    cvName: null
+  // Session state to map to local storage
+  const [loggedUser, setLoggedUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  const handleSetUser = (user) => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+    setLoggedUser(user);
+  };
 
   const renderPage = () => {
     if (currentPage === 'login') {
-      return <Login onNavigate={setCurrentPage} mockUser={mockUser} />;
+      return <Login onNavigate={setCurrentPage} setLoggedUser={handleSetUser} />;
     } else if (currentPage === 'signup') {
-      return <Signup onNavigate={setCurrentPage} setMockUser={setMockUser} />;
+      return <Signup onNavigate={setCurrentPage} setLoggedUser={handleSetUser} />;
     } else if (currentPage === 'forgotpassword') {
       return <ForgotPassword onNavigate={setCurrentPage} />;
     } else if (currentPage === 'feedback') {
-      return <Feedback onNavigate={setCurrentPage} />;
+      return <Feedback onNavigate={setCurrentPage} userData={loggedUser} />;
     } else if (currentPage === 'profile') {
-      return <Profile onNavigate={setCurrentPage} userData={mockUser} setUserData={setMockUser} />;
+      return <Profile onNavigate={setCurrentPage} userData={loggedUser} setUserData={handleSetUser} />;
     } else if (currentPage === 'dashboard') {
-      return <Dashboard onNavigate={setCurrentPage} userData={mockUser} />;
+      return <Dashboard onNavigate={setCurrentPage} userData={loggedUser} />;
+    } else if (currentPage === 'admindashboard') {
+      return <AdminDashboard onNavigate={setCurrentPage} />;
     }
   };
 
-  const isInternalPage = ['dashboard', 'profile', 'feedback'].includes(currentPage);
+  const isInternalPage = ['dashboard', 'profile', 'feedback', 'admindashboard'].includes(currentPage);
   const pageContent = renderPage();
 
   return (
     <div className="App">
       {isInternalPage ? (
-        <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userData={mockUser}>
+        <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userData={loggedUser}>
           {pageContent}
         </MainLayout>
       ) : (

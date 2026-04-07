@@ -43,7 +43,7 @@ function MainLayout({ children, onNavigate, userData, currentPage }) {
 
                     <p className="menu-label">ADMIN & USER</p>
                     <nav>
-                        <button className="menu-item">
+                        <button className={`menu-item ${isActive('admindashboard')}`} onClick={() => onNavigate('admindashboard')}>
                             <span className="icon">⚙️</span>
                             <span>Admin Options</span>
                         </button>

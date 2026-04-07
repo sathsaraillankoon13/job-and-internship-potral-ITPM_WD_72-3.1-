@@ -1,16 +1,60 @@
 import React, { useState } from 'react';
 import '../styles/Feedback.css';
 
-function Feedback({ onNavigate }) {
+function Feedback({ onNavigate, userData }) {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [comment, setComment] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e) => {
+    // Feedbacks state
+    const [feedbacks, setFeedbacks] = useState([]);
+
+    // Fetch on mount
+    React.useEffect(() => {
+        const fetchFeedbacks = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/feedback');
+                if (response.ok) {
+                    const data = await response.json();
+                    setFeedbacks(data);
+                }
+            } catch (error) {
+                console.error("Could not fetch feedbacks", error);
+            }
+        };
+        fetchFeedbacks();
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Feedback submitted:", { rating, comment });
-        setSubmitted(true);
+        
+        try {
+            const name = userData ? `${userData.firstName} ${userData.lastName}` : "Student User";
+            const dateStr = new Date().toISOString().split('T')[0];
+
+            const response = await fetch('http://localhost:5000/api/feedback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, rating, comment, date: dateStr })
+            });
+
+            if (response.ok) {
+                const savedFeedback = await response.json();
+                setFeedbacks([savedFeedback, ...feedbacks]);
+                console.log("Feedback submitted successfully");
+                setSubmitted(true);
+                // Reset form to default
+                setRating(0);
+                setHover(0);
+                setComment('');
+            } else {
+                alert("Failed to submit feedback");
+            }
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+            alert("Could not connect to backend");
+        }
     };
 
     return (
@@ -73,6 +117,27 @@ function Feedback({ onNavigate }) {
                         </button>
                     </div>
                 )}
+
+                {/* Feedback List Section */}
+                <div className="feedback-list-container">
+                    <h3>Recent Feedback</h3>
+                    <div className="feedback-list">
+                        {feedbacks.map((fb) => (
+                            <div key={fb._id || Math.random()} className="feedback-item">
+                                <div className="feedback-item-header">
+                                    <div className="reviewer-info">
+                                        <span className="reviewer-name">{fb.name}</span>
+                                        <span className="feedback-date">{fb.date}</span>
+                                    </div>
+                                    <div className="feedback-item-stars">
+                                        {'★'.repeat(fb.rating)}{'☆'.repeat(5 - fb.rating)}
+                                    </div>
+                                </div>
+                                <p className="feedback-item-comment">{fb.comment}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -7,7 +7,10 @@
 
 # testing
 /coverage
+<<<<<<< HEAD
 
+=======
+>>>>>>> smart-career-preparation-management
 # production
 /build
 

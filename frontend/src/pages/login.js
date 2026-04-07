@@ -19,7 +19,7 @@ function Login({ onNavigate, mockUser }) {
         console.log("Login attempted with:", { username, password });
         if (mockUser && username === mockUser.username && password === mockUser.password) {
             setError('');
-            onNavigate('profile');
+            onNavigate('dashboard');
         } else {
             setError(`Invalid credentials. Try ${mockUser?.username} / ${mockUser?.password}`);
         }

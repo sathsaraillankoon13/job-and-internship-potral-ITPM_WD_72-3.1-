@@ -4,6 +4,8 @@ import Signup from './pages/signup';
 import ForgotPassword from './pages/forgotpassword';
 import Feedback from './pages/feedback';
 import Profile from './pages/profile';
+import Dashboard from './pages/dashboard';
+import MainLayout from './components/MainLayout';
 import './App.css';
 
 function App() {
@@ -33,12 +35,23 @@ function App() {
       return <Feedback onNavigate={setCurrentPage} />;
     } else if (currentPage === 'profile') {
       return <Profile onNavigate={setCurrentPage} userData={mockUser} setUserData={setMockUser} />;
+    } else if (currentPage === 'dashboard') {
+      return <Dashboard onNavigate={setCurrentPage} userData={mockUser} />;
     }
   };
 
+  const isInternalPage = ['dashboard', 'profile', 'feedback'].includes(currentPage);
+  const pageContent = renderPage();
+
   return (
     <div className="App">
-      {renderPage()}
+      {isInternalPage ? (
+        <MainLayout currentPage={currentPage} onNavigate={setCurrentPage} userData={mockUser}>
+          {pageContent}
+        </MainLayout>
+      ) : (
+        pageContent
+      )}
     </div>
   );
 }

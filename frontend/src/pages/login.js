@@ -1,163 +1,237 @@
 import React, { useState } from 'react';
-import '../styles/Login.css';
+import { Mail, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
 
-function Login({ onNavigate, setLoggedUser }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState(''); 
-    const [error, setError] = useState('');
+export default function Login({ onNavigate, setLoggedUser }) {
+  const [email, setEmail] = useState('');        // Using email (more common for auth)
+  const [password, setPassword] = useState('');
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-            const data = await response.json();
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          username: email.trim(),   // backend expects 'username'
+          password 
+        }),
+      });
 
-            if (response.ok) {
-                setError('');
-                if (setLoggedUser) setLoggedUser(data);
-                console.log("Login successful");
-                onNavigate('dashboard');
-            } else {
-                setError(data.message || 'Invalid credentials');
-            }
-        } catch (err) {
-            setError('Could not connect to server.');
-        }
-    };
+      const data = await response.json();
 
-    return (
-        <div className="login-container">
-            <div className="login-card">
+      if (response.ok) {
+        setError('');
+        if (setLoggedUser) setLoggedUser(data);
+        console.log("Login successful");
+        onNavigate('dashboard');
+      } else {
+        setError(data.message || 'Invalid email or password.');
+      }
+    } catch (err) {
+      setError('Could not connect to server. Please check if the backend is running.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                {/* Left Side: Purple area */}
-                <div className="login-left">
-                    {/* Character Illustration SVG */}
-                    <div className="login-illustration-container">
-                        <svg className="login-illustration" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            {/* Light blue background circle */}
-                            <circle cx="200" cy="200" r="140" fill="#E0F2FE" />
+  const handleResetSubmit = (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+    console.log("Password reset requested for:", email.trim());
+    // TODO: Add actual reset API call here later
+    alert('Password reset link has been sent to your email (simulated)');
+    setIsForgotPassword(false);
+    setEmail('');
+  };
 
-                            {/* Left tall purple leaf */}
-                            <path d="M90 280 C50 250, 50 160, 90 130 C110 160, 110 250, 90 280 Z" fill="#3B82F6" opacity="0.9" />
+  return (
+    <div className="flex min-h-screen bg-[#f8f9fa] font-sans">
+      {/* Left Section - Image & Branding */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-gray-900 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity"
+          style={{ 
+            backgroundImage: 'url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80")' 
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-200/50 via-gray-300/30 to-gray-500/80"></div>
 
-                            {/* Right curved leaf */}
-                            <path d="M310 320 C360 270, 340 180, 270 140 C280 200, 270 280, 310 320 Z" fill="#6366F1" opacity="0.95" />
+        <div className="relative z-10 p-12 flex flex-col justify-between h-full w-full">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-[#0f349e] tracking-tight">
+              Nexus<span className="font-semibold text-gray-800">Talent</span>
+            </h1>
+            <div className="h-4 w-px bg-gray-400"></div>
+            <span className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase">The Curator</span>
+          </div>
 
-                            {/* Small fern-like leaves left */}
-                            <path d="M 120 260 Q 100 220 80 200" stroke="#60A5FA" strokeWidth="6" strokeLinecap="round" />
-                            <path d="M 115 250 Q 95 240 85 220" stroke="#60A5FA" strokeWidth="4" strokeLinecap="round" />
-                            <path d="M 110 235 Q 90 225 80 215" stroke="#60A5FA" strokeWidth="4" strokeLinecap="round" />
+          <div className="max-w-xl pb-32">
+            <h2 className="text-6xl font-extrabold text-[#111827] leading-[1.1] mb-6 tracking-tight">
+              Curating the future <br />
+              of <span className="text-[#1034a6]">leadership.</span>
+            </h2>
+            <p className="text-xl text-gray-800 font-medium leading-relaxed max-w-lg">
+              Access the world's most sophisticated talent pipeline. We don't just find candidates; 
+              we architect teams that define industries.
+            </p>
+          </div>
 
-                            {/* Small fern-like leaves right */}
-                            <path d="M 270 290 Q 300 240 330 200" stroke="#0066afff" strokeWidth="6" strokeLinecap="round" />
-                            <path d="M 275 270 Q 305 255 320 230" stroke="#0066afff" strokeWidth="4" strokeLinecap="round" />
-                            <path d="M 285 250 Q 310 235 315 210" stroke="#0066afff" strokeWidth="4" strokeLinecap="round" />
-
-                            {/* The jumping person */}
-                            <g transform="translate(185, 120)">
-                                {/* Hair (flowing) */}
-                                <path d="M25 -10 C 40 -50, -40 -30, -10 30 C 10 40, 20 20, 25 -10 Z" fill="#1E3A8A" />
-                                {/* Face */}
-                                <circle cx="30" cy="5" r="14" fill="#FDBA74" />
-
-                                {/* Arm left */}
-                                <path d="M 20 30 Q -25 10 -40 -15" stroke="#FDBA74" strokeWidth="11" strokeLinecap="round" />
-                                {/* Hand details */}
-                                <circle cx="-42" cy="-17" r="5" fill="#FDBA74" />
-
-                                {/* Arm right */}
-                                <path d="M 40 30 Q 80 10 80 -25" stroke="#FDBA74" strokeWidth="11" strokeLinecap="round" />
-                                <circle cx="80" cy="-27" r="5" fill="#FDBA74" />
-
-                                {/* Body (White top) */}
-                                <path d="M 12 25 C 25 20, 48 20, 48 40 C 48 55, 45 75, 40 70 C 35 68, 25 68, 20 70 C 15 75, 12 55, 12 25 Z" fill="#FFFFFF" />
-
-                                {/* Leg left (Purple pants) */}
-                                <path d="M 23 60 Q 5 110 -40 120" stroke="#0563a2ff" strokeWidth="20" strokeLinecap="round" />
-                                {/* Leg right */}
-                                <path d="M 41 60 Q 60 70 50 100 L 25 145" stroke="#0563a2ff" strokeWidth="20" strokeLinecap="round" />
-
-                                {/* Shoes */}
-                                <path d="M -30 115 L -45 120 L -45 125 L -30 125 Z" fill="#111827" /> {/* Left Shoe */}
-                                <path d="M 33 138 L 15 145 L 18 152 L 35 145 Z" fill="#111827" /> {/* Right Shoe */}
-                            </g>
-                        </svg>
-                    </div>
-
-                    <div className="login-lorem-text">
-                        Securely manage your academic profile, discover verified university internships,
-                        and share authentic ratings to build a trusted, empowering career network for all future student leaders.
-                    </div>
-                </div>
-
-                {/* Right Side: Login Form */}
-                <div className="login-right">
-
-                    {/* Removed welcome tag */}
-
-                    <div className="login-form-container">
-
-                        <div className="login-form-wrapper">
-                            <h2 className="login-title">
-                                Login your account
-                            </h2>
-
-                            <form className="login-form" onSubmit={handleLogin}>
-                                {error && <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', marginBottom: '-1.5rem', marginTop: '-0.5rem', fontWeight: '500' }}>{error}</div>}
-                                <div className="input-group">
-                                    <input
-                                        type="text"
-                                        id="username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Username"
-                                        className="login-input"
-                                        required
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Password"
-                                        className="login-input"
-                                        required
-                                    />
-                                </div>
-
-                                <div className="login-button-group">
-                                    <button type="submit" className="login-button">
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div className="create-account-link-container">
-                                <button type="button" onClick={() => onNavigate('signup')} className="create-account-link" style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', padding: 0 }}>
-                                    Create Account
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="forgot-password-container">
-                            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('forgotpassword'); }} className="forgot-password-link">
-                                Forgot Password?
-                            </a>
-                        </div>
-                    </div>
-                </div>
+          <div className="flex gap-16">
+            <div>
+              <p className="text-3xl font-bold text-[#111827] mb-1 tracking-tight">12.4k</p>
+              <p className="text-[10px] font-bold text-gray-700 tracking-[0.15em] uppercase">Vetted Executives</p>
             </div>
+            <div>
+              <p className="text-3xl font-bold text-[#111827] mb-1 tracking-tight">98%</p>
+              <p className="text-[10px] font-bold text-gray-700 tracking-[0.15em] uppercase">Retention Rate</p>
+            </div>
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Right Section - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 relative">
+        <div className="w-full max-w-md bg-white p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+
+          {/* Login Form */}
+          <div className={`transition-all duration-300 ease-in-out ${isForgotPassword ? 'opacity-0 invisible absolute' : 'opacity-100 visible relative'}`}>
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Welcome Back</h2>
+              <p className="text-sm text-gray-500 font-medium">Please enter your credentials to continue.</p>
+            </div>
+
+            <form onSubmit={handleLoginSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-red-50 text-red-600 rounded-xl p-3 flex items-center gap-3 text-sm font-medium border border-red-100">
+                  <AlertCircle size={18} className="flex-shrink-0" />
+                  <p>{error}</p>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-600 uppercase tracking-widest pl-1">Email / Username</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Mail className="h-4 w-4 text-gray-400" strokeWidth={2.5} />
+                  </div>
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                    className="block w-full pl-11 pr-4 py-3.5 bg-[#f8f9fa] border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 transition-all outline-none text-gray-900 placeholder-gray-400"
+                    placeholder="name@nexus-talent.com or username"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-600 uppercase tracking-widest pl-1">Password</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Lock className="h-4 w-4 text-gray-400" strokeWidth={2.5} />
+                  </div>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                    className="block w-full pl-11 pr-4 py-3.5 bg-[#f8f9fa] border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 transition-all outline-none text-gray-900 placeholder-gray-400"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center">
+                  <input id="remember-me" type="checkbox" className="h-4 w-4 text-[#1034a6] focus:ring-[#1034a6] border-gray-300 rounded" />
+                  <label htmlFor="remember-me" className="ml-2 block text-xs font-bold text-gray-600">Remember Me</label>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setIsForgotPassword(true); setError(''); }}
+                  className="text-xs font-bold text-[#1034a6] hover:text-blue-800 transition-colors"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-md shadow-blue-900/10 text-sm font-bold text-white bg-[#1034a6] hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1034a6] transition-colors disabled:opacity-70"
+              >
+                {loading ? 'Signing In...' : 'Sign In'}
+              </button>
+            </form>
+          </div>
+
+          {/* Forgot Password Form */}
+          <div className={`transition-all duration-300 ease-in-out ${!isForgotPassword ? 'opacity-0 invisible absolute' : 'opacity-100 visible relative'}`}>
+            <button
+              onClick={() => { setIsForgotPassword(false); setError(''); }}
+              className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#1034a6] transition-colors mb-6 uppercase tracking-widest"
+            >
+              <ArrowLeft size={16} strokeWidth={2.5} />
+              Back to Login
+            </button>
+
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Forgot Password</h2>
+              <p className="text-sm text-gray-500 font-medium">
+                Enter your email address and we'll send you instructions to reset your password.
+              </p>
+            </div>
+
+            <form onSubmit={handleResetSubmit} className="space-y-6">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-600 uppercase tracking-widest pl-1">Email Address</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Mail className="h-4 w-4 text-gray-400" strokeWidth={2.5} />
+                  </div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                    className="block w-full pl-11 pr-4 py-3.5 bg-[#f8f9fa] border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 transition-all outline-none text-gray-900 placeholder-gray-400"
+                    placeholder="name@nexus-talent.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-md shadow-blue-900/10 text-sm font-bold text-white bg-[#1034a6] hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1034a6] transition-colors"
+              >
+                Send Reset Link
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="absolute bottom-10 flex justify-center w-full">
+          <p className="text-sm font-medium text-gray-600">
+            Don't have an account?{' '}
+            <button
+              onClick={() => onNavigate('signup')}
+              className="font-bold text-[#1034a6] hover:underline"
+            >
+              Contact Admin / Create Account
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default Login;
-
-

@@ -271,7 +271,12 @@ export default function CandidateShortlisting({ onLogout, onNavigate }) {
                                                 {/* Candidate Profile Info */}
                                                 <div className="flex gap-5">
                                                     <div className="relative">
-                                                        <img src={candidate.avatar} alt={candidate.name} className="w-16 h-16 rounded-full object-cover bg-gray-100 shadow-sm" />
+                                                        <img
+                                                            src={candidate.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(candidate.name)}&background=1e285a&color=fff&size=128&bold=true`}
+                                                            alt={candidate.name}
+                                                            className="w-16 h-16 rounded-full object-cover bg-gray-100 shadow-sm"
+                                                            onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(candidate.name)}&background=1e285a&color=fff&size=128&bold=true`; }}
+                                                        />
                                                         <div className="absolute -bottom-2 -right-2 bg-green-100 border-2 border-white text-green-700 font-extrabold text-[10px] w-8 h-8 flex items-center justify-center rounded-full shadow-sm">
                                                             {candidate.matchScore}%
                                                         </div>
@@ -350,7 +355,12 @@ export default function CandidateShortlisting({ onLogout, onNavigate }) {
 
                         <div className="flex flex-col md:flex-row gap-8">
                             <div className="w-full md:w-1/3 flex flex-col items-center text-center">
-                                <img src={selectedProfile.avatar} alt={selectedProfile.name} className="w-32 h-32 rounded-full object-cover shadow-md mb-4 border-4 border-gray-50" />
+                                <img
+                                    src={selectedProfile.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedProfile.name)}&background=1e285a&color=fff&size=256&bold=true`}
+                                    alt={selectedProfile.name}
+                                    className="w-32 h-32 rounded-full object-cover shadow-md mb-4 border-4 border-gray-50"
+                                    onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedProfile.name)}&background=1e285a&color=fff&size=256&bold=true`; }}
+                                />
                                 <h2 className="text-2xl font-bold text-gray-900 leading-tight">{selectedProfile.name}</h2>
                                 <p className="text-[#1034a6] font-bold text-sm mb-4">{selectedProfile.role}</p>
 

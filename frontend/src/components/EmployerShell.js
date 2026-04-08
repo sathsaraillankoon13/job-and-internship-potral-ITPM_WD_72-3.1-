@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { useEmployerJobs } from "../context/EmployerJobsContext";
 import { fetchNotifications } from "../api";
 
@@ -36,7 +37,24 @@ export default function EmployerShell({ activeKey, title, subtitle, children, co
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
   const { counts } = useEmployerJobs();
+  const navigate = useNavigate();
+
+  const [user] = useState(() => {
+    try {
+      const saved = localStorage.getItem("user");
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const isAdmin = useMemo(() => {
+    const role = (user?.role || user?.type || "").toLowerCase();
+    return role === "admin";
+  }, [user]);
+
   const resolvedCounts = countsOverride || counts;
+
 
   useEffect(() => {
     let active = true;
@@ -99,7 +117,25 @@ export default function EmployerShell({ activeKey, title, subtitle, children, co
           {resolvedNavItems.map((item) => (
             <SidebarLink key={item.key} item={item} activeKey={activeKey} />
           ))}
+
+          {isAdmin && (
+            <div className="mt-6 pt-6 border-t border-white/10">
+              <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/45">System Admin</p>
+              <button
+                onClick={() => {
+                  // This will navigate to root and handleNavigate in App.js will show AdminDashboard 
+                  // if we ensure App.js knows to restore state
+                  window.dispatchEvent(new CustomEvent("careerbridge:navigate", { detail: "admindashboard" }));
+                }}
+                className="relative mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition text-sky-200 hover:bg-white/10 hover:text-white"
+              >
+                <span className="w-5 text-center text-base">🛡️</span>
+                <span>Back to Admin Control</span>
+              </button>
+            </div>
+          )}
         </div>
+
 
         <div className="mt-auto border-t border-white/10 p-5">
           <div className="flex items-center gap-3 rounded-xl bg-white/10 p-3">

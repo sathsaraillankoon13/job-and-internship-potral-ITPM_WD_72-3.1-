@@ -71,7 +71,8 @@ const categories = [
 	},
 ];
 
-export default function CategoriesPage() {
+export default function CategoriesPage({ user }) {
+
 	useEffect(() => {
 		document.title = "Categories | CareerBridge";
 	}, []);
@@ -82,7 +83,8 @@ export default function CategoriesPage() {
 
 			<div className={styles.page}>
 				<div className="min-h-screen bg-skyBrand-50 text-slate-900">
-					<Navbar variant="hero" />
+					<Navbar variant="hero" user={user} />
+
 
 				<main className="mx-auto max-w-7xl px-4 pb-16 pt-10 lg:px-8">
 					<section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">

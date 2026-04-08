@@ -3,7 +3,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 import styles from "../styles/contact.module.css";
 
-export default function Contact() {
+export default function Contact({ user }) {
+
   useEffect(() => {
     document.title = "Contact Us - CareerBridge";
   }, []);
@@ -121,7 +122,8 @@ export default function Contact() {
     <>
 
 
-      <Navbar />
+      <Navbar user={user} />
+
 
       <div className={styles.container}>
         {/* Hero Section */}

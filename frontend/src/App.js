@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 // CareerBridge Main Pages
@@ -7,6 +8,8 @@ import Opportunities from './pages/opportunities';
 import Categories from './pages/categories';
 import About from './pages/about';
 import Contact from './pages/contact';
+import ApplicationPage from './pages/application';
+
 import JobInternshipDashboardPage from './pages/Job-internship-Dashboard';
 import PostJobPage from './pages/post-job';
 import ManageJobPostsPage from './pages/manage-job-posts';
@@ -97,7 +100,16 @@ function App() {
     handleNavigate('login');
   };
 
+  useEffect(() => {
+    const onCustomNavigate = (e) => {
+      handleNavigate(e.detail);
+    };
+    window.addEventListener("careerbridge:navigate", onCustomNavigate);
+    return () => window.removeEventListener("careerbridge:navigate", onCustomNavigate);
+  }, []);
+
   const renderPage = () => {
+
     switch (currentPage) {
       case 'login': return <Login onNavigate={handleNavigate} setLoggedUser={handleSetUser} />;
       case 'signup': return <Signup onNavigate={handleNavigate} setLoggedUser={handleSetUser} />;
@@ -158,14 +170,24 @@ function App() {
       <EmployerJobsProvider>
         <div className="App">
           <Routes>
-            <Route path="/" element={!currentPage ? <HomePage /> : null} />
+            <Route path="/" element={!currentPage ? (
+              (loggedUser?.role === 'admin' || loggedUser?.type === 'admin') 
+                ? <AdminDashboard onLogout={handleLogout} onNavigate={handleNavigate} />
+                : <HomePage user={loggedUser} />
+            ) : null} />
+
             <Route path="/login" element={<Login onNavigate={handleNavigate} setLoggedUser={handleSetUser} />} />
-            <Route path="/opportunities" element={<Opportunities />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/opportunities" element={<Opportunities user={loggedUser} />} />
+            <Route path="/categories" element={<Categories user={loggedUser} />} />
+            <Route path="/about" element={<About user={loggedUser} />} />
+            <Route path="/contact" element={<Contact user={loggedUser} />} />
+            <Route path="/application" element={<ApplicationPage user={loggedUser} />} />
+
+
             <Route path="/employer/dashboard" element={<JobInternshipDashboardPage />} />
+            <Route path="/recruitment-dashboard" element={<Dashboard onLogout={handleLogout} onNavigate={handleNavigate} />} />
             <Route path="/employer/post-job" element={<PostJobPage />} />
+
             <Route path="/employer/manage-job-posts" element={<ManageJobPostsPage />} />
             <Route path="/employer/analytics" element={<AnalyticsPage />} />
             <Route path="/student-register" element={<Register />} />

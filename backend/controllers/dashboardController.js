@@ -75,20 +75,38 @@ function getLastNMonths(n, now = new Date()) {
 
 async function getDashboardSummary(req, res, next) {
   try {
-    const jobs = await Job.find({}, { startAt: 1, expiresAt: 1, startDate: 1, applicationDeadline: 1, status: 1, _id: 1 });
-    const [totalApplicants, submissions] = await Promise.all([
+    const jobs = await Job.find({}, { startAt: 1, expiresAt: 1, startDate: 1, applicationDeadline: 1, status: 1, _id: 1, views: 1, title: 1 });
+    const [totalApplicants, submissions, recentSubmissions] = await Promise.all([
       JobSubmission.countDocuments(),
       JobSubmission.find({}, { appliedDate: 1, createdAt: 1 }),
+      JobSubmission.find().sort({ createdAt: -1 }).limit(5).lean(),
     ]);
+
+    const recentSubmissionsWithJob = await Promise.all(
+      recentSubmissions.map(async (s) => {
+        const job = await Job.findById(s.jobId, { title: 1 });
+        return {
+          type: "application",
+          icon: "📄",
+          name: `${s.firstName} ${s.lastName}`,
+          action: `applied to ${job?.title || "a job"}`,
+          time: s.appliedDate || s.createdAt,
+        };
+      })
+    );
+
 
     let activeJobs = 0;
     let scheduledJobs = 0;
     let expiredJobs = 0;
     let closedJobs = 0;
     let draftJobs = 0;
+    let totalViews = 0;
 
     jobs.forEach((job) => {
+      totalViews += (job.views || 0);
       const status = getJobScheduleStatus(job);
+
 
       if (status === "Scheduled") {
         scheduledJobs += 1;
@@ -121,8 +139,11 @@ async function getDashboardSummary(req, res, next) {
       closedJobs,
       draftJobs,
       totalApplicants,
+      totalViews,
       weeklyApplicationVolume: buildWeeklyApplicationVolume(submissions),
+      recentActivity: recentSubmissionsWithJob,
     });
+
   } catch (error) {
     next(error);
   }

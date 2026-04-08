@@ -48,7 +48,8 @@ function mapJobCard(job) {
   };
 }
 
-export default function HomePage() {
+export default function HomePage({ user }) {
+
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "CareerBridge | Where Futures Begin";
@@ -164,7 +165,8 @@ export default function HomePage() {
     <>
       <div className={styles.page}>
         <div className="min-h-screen bg-skyBrand-50 text-slate-900">
-          <Navbar variant="hero" />
+          <Navbar variant="hero" user={user} />
+
 
           <main>
             <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-4 pb-14 pt-16 text-white lg:px-8 lg:pt-20">
@@ -271,8 +273,12 @@ export default function HomePage() {
                     <p className="mt-3 text-sm text-white/70">
                       Build your profile once and get role recommendations based on skills, major, and goals.
                     </p>
-                    <button type="button" className="mt-5 rounded-xl border border-skyBrand-300/60 bg-skyBrand-500/20 px-4 py-2 text-sm font-bold hover:bg-skyBrand-600">
-                      Create free profile
+                    <button
+                      type="button"
+                      onClick={() => navigate(user ? "/student/assessment" : "/student-register")}
+                      className="mt-5 rounded-xl border border-skyBrand-300/60 bg-skyBrand-500/20 px-4 py-2 text-sm font-bold hover:bg-skyBrand-600"
+                    >
+                      {user ? "Take Skills Assessment" : "Create free profile"}
                     </button>
                   </div>
                 </div>

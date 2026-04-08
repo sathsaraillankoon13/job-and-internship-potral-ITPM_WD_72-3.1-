@@ -39,7 +39,8 @@ function getDeadlineTag(dateValue) {
 const WEEKDAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function JobInternshipDashboardPage() {
-  const [analytics, setAnalytics] = useState({ totalJobPostings: 0, activeJobs: 0, expiredJobs: 0, totalApplicants: 0 });
+  const [analytics, setAnalytics] = useState({ totalJobPostings: 0, activeJobs: 0, expiredJobs: 0, totalApplicants: 0, totalViews: 0, recentActivity: [] });
+
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -143,9 +144,10 @@ export default function JobInternshipDashboardPage() {
   const stats = [
     { icon: "📋", value: liveCounts.total, label: "Total Job Postings", trend: "Live updates", tone: "up" },
     { icon: "✅", value: liveCounts.active, label: "Active Jobs", trend: "Currently live", tone: "neutral" },
-    { icon: "⏰", value: liveCounts.expired, label: "Expired Jobs", trend: "Auto synced", tone: "down" },
+    { icon: "👁️", value: analytics.totalViews || 0, label: "Total Job Views", trend: "Across listings", tone: "up" },
     { icon: "👥", value: liveCounts.applicants, label: "Total Applicants", trend: "Across all jobs", tone: "up" },
   ];
+
 
   const weeklyApplicationVolume = useMemo(() => {
     if (Array.isArray(analytics.weeklyApplicationVolume) && analytics.weeklyApplicationVolume.length === 7) {
@@ -171,6 +173,23 @@ export default function JobInternshipDashboardPage() {
   }));
 
   const formatStatus = (status) => status.charAt(0).toUpperCase() + status.slice(1);
+
+  const formatActivityTime = (dateString) => {
+    if (!dateString) return "Just now";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Just now";
+    
+    const diffMs = new Date() - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  };
+
 
   return (
     <div className={styles.page}>
@@ -294,23 +313,23 @@ export default function JobInternshipDashboardPage() {
             <p className="text-xs text-slate-500">Latest events on your portal</p>
           </div>
           <div className="grid gap-x-6 px-5 py-3 sm:grid-cols-2 lg:px-6">
-            {[
-              ["📄", "Kavindu Perera", "applied to Frontend Developer", "10 minutes ago"],
-              ["👁️", "Mobile App Intern", "received 12 new views", "1 hour ago"],
-              ["✅", "Data Analyst", "post was approved and published", "3 hours ago"],
-              ["⏰", "DevOps Engineer", "listing has expired", "Yesterday"],
-            ].map((item) => (
-              <div key={item[1]} className="flex gap-3 border-b border-[#0262BA]/10 py-3 last:border-0">
-                <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#0262BA]/12">{item[0]}</div>
-                <div>
-                  <p className="text-sm text-slate-700">
-                    <span className="font-bold text-slate-900">{item[1]}</span> {item[2]}
-                  </p>
-                  <p className="text-xs text-slate-400">{item[3]}</p>
+            {(analytics.recentActivity || []).length > 0 ? (
+              analytics.recentActivity.map((item, idx) => (
+                <div key={idx} className="flex gap-3 border-b border-[#0262BA]/10 py-3 last:border-0">
+                  <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#0262BA]/12">{item.icon}</div>
+                  <div>
+                    <p className="text-sm text-slate-700">
+                      <span className="font-bold text-slate-900">{item.name}</span> {item.action}
+                    </p>
+                    <p className="text-xs text-slate-400">{formatActivityTime(item.time)}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="py-4 text-sm text-slate-500">No recent activity detected.</p>
+            )}
           </div>
+
         </section>
       </EmployerShell>
     </div>

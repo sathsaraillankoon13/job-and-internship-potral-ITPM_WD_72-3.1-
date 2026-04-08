@@ -22,13 +22,13 @@ function Login({ onNavigate, setLoggedUser }) {
         if (setLoggedUser) setLoggedUser(data);
         console.log("Login successful", data);
 
-        const userRole = data.role || data.type || 'student';
+        const userRole = (data.role || data.type || 'student').toLowerCase();
         if (userRole === 'admin') {
           onNavigate('admindashboard');
-        } else if (userRole === 'employer') {
-          onNavigate('dashboard');
+        } else if (userRole === 'employer' || userRole === 'company') {
+          onNavigate('/employer/dashboard');
         } else {
-          onNavigate('student/dashboard');
+          onNavigate('home');
         }
       } else {
         setError(data.message || 'Invalid credentials');

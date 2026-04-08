@@ -3,7 +3,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 import styles from "../styles/about.module.css";
 
-export default function About() {
+export default function About({ user }) {
+
   useEffect(() => {
     document.title = "About Us - CareerBridge";
   }, []);
@@ -12,7 +13,8 @@ export default function About() {
     <>
 
 
-      <Navbar />
+      <Navbar user={user} />
+
 
       <div className={styles.container}>
         {/* Hero Section */}

@@ -33,7 +33,7 @@ function AdminDashboard({ onLogout, onNavigate }) {
                 <p>Overview and system management</p>
                 <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
                     <button 
-                      onClick={() => window.location.href = '/employer/dashboard'}
+                      onClick={() => onNavigate('/employer/dashboard')}
                       className="admin-action-btn edit" 
                       style={{ padding: '10px 20px', fontSize: '1rem', background: '#DBEAFE', color: '#1E40AF', border: '1px solid #BFDBFE', borderRadius: '8px', cursor: 'pointer' }}
                     >

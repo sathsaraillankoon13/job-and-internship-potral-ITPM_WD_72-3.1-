@@ -41,7 +41,8 @@ function mapJob(job) {
   };
 }
 
-export default function OpportunitiesPage() {
+export default function OpportunitiesPage({ user }) {
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -239,7 +240,8 @@ export default function OpportunitiesPage() {
     <>
       <div className={styles.page}>
         <div className="min-h-screen bg-skyBrand-50 text-slate-900">
-          <Navbar variant="hero" />
+          <Navbar variant="hero" user={user} />
+
 
           <main className="relative overflow-hidden px-4 pb-16 pt-10 lg:px-8">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(59,130,246,0.2),transparent_30%),radial-gradient(circle_at_90%_20%,rgba(14,165,233,0.15),transparent_28%)]" />

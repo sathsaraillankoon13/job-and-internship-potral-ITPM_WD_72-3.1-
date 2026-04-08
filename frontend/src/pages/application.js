@@ -1,6 +1,6 @@
-import Head from "next/head";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/router";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 import { createSubmission, fetchJob, incrementJobView } from "../api";
@@ -14,10 +14,12 @@ function safeText(value, fallback) {
   return String(value);
 }
 
-export default function ApplicationPage() {
-  const router = useRouter();
-  const { query } = router;
+export default function ApplicationPage({ user }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const query = useMemo(() => Object.fromEntries(new URLSearchParams(location.search)), [location.search]);
   const trackedViewRef = useRef(false);
+
 
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,15 +28,16 @@ export default function ApplicationPage() {
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    studentEmail: "",
-    phone: "",
-    university: "",
-    year: "",
+    firstName: user?.firstName || user?.name?.split(' ')[0] || "",
+    lastName: user?.lastName || user?.name?.split(' ')[1] || "",
+    studentEmail: user?.email || "",
+    phone: user?.phone || "",
+    university: user?.university || "",
+    year: user?.year || "",
     coverLetter: "",
     resumeFile: null,
   });
+
   const [fieldErrors, setFieldErrors] = useState({});
 
   const validateSingleField = (name, value, currentState) => {
@@ -87,18 +90,18 @@ export default function ApplicationPage() {
   };
 
   useEffect(() => {
+    document.title = "Application | CareerBridge";
     let active = true;
 
     async function loadJob() {
+      if (!query.jobId) return;
       setLoading(true);
       setError("");
 
       try {
-        if (query.jobId) {
-          const data = await fetchJob(query.jobId);
-          if (!active) return;
-          setJob(data);
-        }
+        const data = await fetchJob(query.jobId);
+        if (!active) return;
+        setJob(data);
       } catch (err) {
         if (!active) return;
         setError(err?.response?.data?.message || err.message || "Failed to load job details");
@@ -113,6 +116,7 @@ export default function ApplicationPage() {
       active = false;
     };
   }, [query.jobId]);
+
 
   useEffect(() => {
     if (typeof window === "undefined" || !query.jobId || trackedViewRef.current) {
@@ -297,8 +301,9 @@ export default function ApplicationPage() {
   }, [fieldErrors, formData]);
 
   const redirectToJobs = () => {
-    router.push("/opportunities");
+    navigate("/opportunities");
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -363,10 +368,7 @@ export default function ApplicationPage() {
 
   return (
     <>
-      <Head>
-        <title>Application | CareerBridge</title>
-        <meta name="description" content="Apply for selected opportunity on CareerBridge" />
-      </Head>
+
 
       <div className={styles.page}>
         <div className="min-h-screen bg-skyBrand-50 text-slate-900">
@@ -540,7 +542,7 @@ export default function ApplicationPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => router.push("/opportunities")}
+                        onClick={() => navigate("/opportunities")}
                         className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg"
                       >
                         Back to Jobs

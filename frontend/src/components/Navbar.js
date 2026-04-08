@@ -1,15 +1,20 @@
 import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { User } from "lucide-react";
 
-const studentLinks = ["Home", "Jobs", "Categories", "About Us", "Contact Us"];
+
+const studentLinks = ["Home", "Jobs", "Skills", "Categories", "About Us", "Contact Us"];
+
 const employerLinks = ["Post a Job", "My Listings", "Applications", "Pricing", "Resources"];
 
 const studentRouteMap = {
   Home: "/",
   Jobs: "/opportunities",
+  Skills: "/student/assessment",
   Categories: "/categories",
   "About Us": "/about",
   "Contact Us": "/contact",
+
 };
 
 const employerRouteMap = {
@@ -18,7 +23,18 @@ const employerRouteMap = {
   Applications: "/employer/dashboard",
 };
 
-export default function Navbar({ variant = "default" }) {
+export default function Navbar({ variant = "default", user: userProp = null }) {
+  const [localUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const user = userProp || localUser;
+
   const audience = "student";
   const [mobileOpen, setMobileOpen] = useState(false);
   const isHeroVariant = variant === "hero";
@@ -94,16 +110,33 @@ export default function Navbar({ variant = "default" }) {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Link
-            to="/login"
-            className={`rounded-lg border px-4 py-2 text-sm font-bold transition ${
-              isHeroVariant
-                ? "border-white/35 text-white hover:bg-white/10"
-                : "border-skyBrand-200 text-skyBrand-700 hover:bg-skyBrand-50"
-            }`}
-          >
-            Login
-          </Link>
+          {user ? (
+            <Link
+              to="/student/dashboard"
+              className={`flex items-center gap-2 rounded-full border p-1 transition ${
+                isHeroVariant
+                  ? "border-white/35 text-white hover:bg-white/10"
+                  : "border-skyBrand-200 text-skyBrand-700 hover:bg-skyBrand-50 shadow-sm"
+              }`}
+              title="Go to Dashboard"
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-skyBrand-500 to-skyBrand-700 shadow-inner">
+                <User size={16} strokeWidth={3} className="text-white" />
+              </div>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={`rounded-lg border px-4 py-2 text-sm font-bold transition ${
+                isHeroVariant
+                  ? "border-white/35 text-white hover:bg-white/10"
+                  : "border-skyBrand-200 text-skyBrand-700 hover:bg-skyBrand-50"
+              }`}
+            >
+              Login
+            </Link>
+          )}
+
           {audience === "student" ? (
             <button
               type="button"
@@ -171,16 +204,31 @@ export default function Navbar({ variant = "default" }) {
             );
           })}
           <div className="mt-2 flex gap-2">
-            <Link
-              to="/login"
-              className={`flex-1 text-center rounded-lg border px-3 py-2 text-sm font-bold ${
-                isHeroVariant
-                  ? "border-white/35 text-white"
-                  : "border-skyBrand-200 text-skyBrand-700"
-              }`}
-            >
-              Login
-            </Link>
+            {user ? (
+              <Link
+                to="/student/dashboard"
+                className={`flex-1 flex items-center justify-center gap-2 rounded-lg border px-3 py-2 text-sm font-bold ${
+                  isHeroVariant
+                    ? "border-white/35 text-white bg-white/10"
+                    : "border-skyBrand-200 text-skyBrand-700 bg-skyBrand-50"
+                }`}
+              >
+                <User size={18} />
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className={`flex-1 text-center rounded-lg border px-3 py-2 text-sm font-bold ${
+                  isHeroVariant
+                    ? "border-white/35 text-white"
+                    : "border-skyBrand-200 text-skyBrand-700"
+                }`}
+              >
+                Login
+              </Link>
+            )}
+
             {audience === "student" ? (
               <button type="button" className="flex-1 rounded-lg bg-skyBrand-500 px-3 py-2 text-sm font-bold text-white">
                 Get Started

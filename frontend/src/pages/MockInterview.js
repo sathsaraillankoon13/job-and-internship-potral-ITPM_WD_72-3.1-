@@ -641,7 +641,7 @@ const MockInterview = () => {
     } catch (err) {
       console.error('Error fetching evaluation:', err);
       alert("Evaluation failed. Redirecting to Assessment History while we process in the background...");
-      navigate('/assessment-history');
+      navigate('/student/assessment-history');
     } finally {
       setLoading(false);
     }

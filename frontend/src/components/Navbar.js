@@ -94,8 +94,8 @@ export default function Navbar({ variant = "default" }) {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <button
-            type="button"
+          <Link
+            to="/login"
             className={`rounded-lg border px-4 py-2 text-sm font-bold transition ${
               isHeroVariant
                 ? "border-white/35 text-white hover:bg-white/10"
@@ -103,7 +103,7 @@ export default function Navbar({ variant = "default" }) {
             }`}
           >
             Login
-          </button>
+          </Link>
           {audience === "student" ? (
             <button
               type="button"
@@ -171,16 +171,16 @@ export default function Navbar({ variant = "default" }) {
             );
           })}
           <div className="mt-2 flex gap-2">
-            <button
-              type="button"
-              className={`flex-1 rounded-lg border px-3 py-2 text-sm font-bold ${
+            <Link
+              to="/login"
+              className={`flex-1 text-center rounded-lg border px-3 py-2 text-sm font-bold ${
                 isHeroVariant
                   ? "border-white/35 text-white"
                   : "border-skyBrand-200 text-skyBrand-700"
               }`}
             >
               Login
-            </button>
+            </Link>
             {audience === "student" ? (
               <button type="button" className="flex-1 rounded-lg bg-skyBrand-500 px-3 py-2 text-sm font-bold text-white">
                 Get Started

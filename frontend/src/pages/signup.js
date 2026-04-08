@@ -14,17 +14,17 @@ function Signup({ onNavigate, setLoggedUser }) {
             setError('Passwords do not match');
             return;
         }
-        
+
         try {
             const response = await fetch('http://localhost:5000/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    username, 
-                    email, 
+                body: JSON.stringify({
+                    username,
+                    email,
                     password,
                     firstName: username,
-                    lastName: " " 
+                    lastName: " "
                 })
             });
 
@@ -45,7 +45,7 @@ function Signup({ onNavigate, setLoggedUser }) {
     return (
         <div className="login-container">
             <div className="login-card">
-                
+
                 {/* Form Area - On left for signup */}
                 <div className="login-right">
                     <div className="welcome-tag">
@@ -60,8 +60,8 @@ function Signup({ onNavigate, setLoggedUser }) {
                         <form className="login-form" onSubmit={handleSignup}>
                             {error && <div style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center', marginBottom: '-0.5rem', fontWeight: '500' }}>{error}</div>}
                             <div className="input-group">
-                                <input 
-                                    type="email" 
+                                <input
+                                    type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Email Address"
@@ -70,8 +70,8 @@ function Signup({ onNavigate, setLoggedUser }) {
                                 />
                             </div>
                             <div className="input-group">
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     placeholder="Username"
@@ -80,8 +80,8 @@ function Signup({ onNavigate, setLoggedUser }) {
                                 />
                             </div>
                             <div className="input-group">
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Password"
@@ -90,8 +90,8 @@ function Signup({ onNavigate, setLoggedUser }) {
                                 />
                             </div>
                             <div className="input-group">
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     placeholder="Confirm Password"
@@ -106,7 +106,7 @@ function Signup({ onNavigate, setLoggedUser }) {
                                 </button>
                             </div>
                         </form>
-                        
+
                         <div className="create-account-link-container">
                             <span style={{ fontSize: '12px', color: '#64748B' }}>Already have an account? </span>
                             <button type="button" onClick={() => onNavigate('login')} className="create-account-link" style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', padding: 0 }}>
@@ -121,7 +121,7 @@ function Signup({ onNavigate, setLoggedUser }) {
                     <div className="login-illustration-container">
                         <svg className="login-illustration" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="200" cy="200" r="140" fill="#E0F2FE" opacity="0.2" />
-                            
+
                             <path d="M100 280 C60 250, 60 180, 100 150 C120 180, 120 250, 100 280 Z" fill="#60A5FA" opacity="0.9" />
                             <path d="M300 320 C350 270, 330 180, 260 140 C270 200, 260 280, 300 320 Z" fill="#93C5FD" opacity="0.9" />
 

@@ -475,7 +475,7 @@ const InterviewFeedback = () => {
                         {isExporting ? "Exporting..." : "Export PDF"}
                     </button>
                     <button
-                        onClick={() => navigate("/mock-interview")}
+                        onClick={() => navigate("/student/mock-interview")}
                         className="ifb-btn-primary"
                     >
                         <RotateCcw size={18} />

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
 import { fetchJobs } from "../api";
 import { getJobScheduleStatus, getJobTimingLabel } from "../utils/jobSchedule";

@@ -171,7 +171,7 @@ const SkillsAssessment = () => {
              <p className="mt-2 text-blue-400 italic">Check back soon for a deep dive into this skill!</p>
            </div>
            <button 
-             onClick={() => navigate('/skill-selection')} 
+             onClick={() => navigate('/student/skill-selection')} 
              className="w-full py-4 bg-[#0238AD] text-white font-bold rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200"
            >
              Explore Other Skills
@@ -206,7 +206,7 @@ const SkillsAssessment = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => navigate('/assessment-results', { 
+                onClick={() => navigate('/student/assessment-results', { 
                   state: { 
                     questions, 
                     selectedAnswers, 
@@ -221,7 +221,7 @@ const SkillsAssessment = () => {
                 View Detailed Results
               </button>
               <button 
-                onClick={() => navigate('/skill-selection')} 
+                onClick={() => navigate('/student/skill-selection')} 
                 className="px-8 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-all"
               >
                 Retake Assessment

@@ -54,9 +54,9 @@ const SkillSelection = () => {
       <div className="inner-tabs-wrapper">
         <div className="inner-tabs-content">
           {[
-            { name: 'Take Assessment', path: '/skill-selection' },
-            { name: 'My Results', path: '/assessment-results' },
-            { name: 'History', path: '/assessment-history' }
+            { name: 'Take Assessment', path: '/student/skill-selection' },
+            { name: 'My Results', path: '/student/assessment-results' },
+            { name: 'History', path: '/student/assessment-history' }
           ].map(tab => (
             <Link
               key={tab.name}
@@ -270,7 +270,7 @@ const SkillSelection = () => {
             </div>
           </div>
           <button
-            onClick={() => navigate('/assessment', { 
+            onClick={() => navigate('/student/assessment', { 
               state: { 
                 testType: selectedTestType,
                 difficulty: difficulty,

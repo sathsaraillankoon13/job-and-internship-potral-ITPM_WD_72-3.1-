@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 // CareerBridge Main Pages
 import HomePage from './pages/HomePage';
@@ -15,7 +15,7 @@ import { EmployerJobsProvider } from './context/EmployerJobsContext';
 import './styles/App.css';
 
 // Original Auth & Profile
-import Login from './pages/login';
+import Login from './pages/Login';
 import Signup from './pages/signup';
 import ForgotPassword from './pages/forgotpassword';
 import Feedback from './pages/feedback';
@@ -55,8 +55,28 @@ import QuestionCard from './pages/QuestionCard.js';
 import Register from './pages/Register.js';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('login');
+  const [currentPage, setCurrentPage] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigate = (page) => {
+    if (page === 'home') {
+      setCurrentPage(null);
+      navigate('/');
+      return;
+    }
+    if (typeof page === 'string' && (page.startsWith('/') || page.includes('/'))) {
+      setCurrentPage(null);
+      const target = page.startsWith('/') ? page : `/${page}`;
+      navigate(target);
+      return;
+    }
+    setCurrentPage(page);
+    if (page !== null && location.pathname !== '/') {
+      navigate('/');
+    }
+  };
 
   const [loggedUser, setLoggedUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
@@ -74,34 +94,32 @@ function App() {
 
   const handleLogout = () => {
     handleSetUser(null);
-    setCurrentPage('login');
+    handleNavigate('login');
   };
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'login': return <Login onNavigate={setCurrentPage} setLoggedUser={handleSetUser} />;
-      case 'signup': return <Signup onNavigate={setCurrentPage} setLoggedUser={handleSetUser} />;
-      case 'forgotpassword': return <ForgotPassword onNavigate={setCurrentPage} />;
-      case 'feedback': return <Feedback onNavigate={setCurrentPage} userData={loggedUser} />;
-      case 'profile': return <Profile onNavigate={setCurrentPage} userData={loggedUser} setUserData={handleSetUser} />;
-      case 'dashboard': return <Dashboard onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'applications': return <ApplicationManagement onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'shortlisting': return <CandidateShortlisting onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'interviews': return <InterviewScheduling onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'settings': return <Setting onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'help': return <HelpCenter onLogout={handleLogout} onNavigate={setCurrentPage} />;
-      case 'admindashboard': return <AdminDashboard onLogout={handleLogout} onNavigate={setCurrentPage} />;
+      case 'login': return <Login onNavigate={handleNavigate} setLoggedUser={handleSetUser} />;
+      case 'signup': return <Signup onNavigate={handleNavigate} setLoggedUser={handleSetUser} />;
+      case 'forgotpassword': return <ForgotPassword onNavigate={handleNavigate} />;
+      case 'feedback': return <Feedback onNavigate={handleNavigate} userData={loggedUser} />;
+      case 'profile': return <Profile onNavigate={handleNavigate} userData={loggedUser} setUserData={handleSetUser} />;
+      case 'dashboard': return <Dashboard onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'applications': return <ApplicationManagement onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'shortlisting': return <CandidateShortlisting onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'interviews': return <InterviewScheduling onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'settings': return <Setting onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'help': return <HelpCenter onLogout={handleLogout} onNavigate={handleNavigate} />;
+      case 'admindashboard': return <AdminDashboard onLogout={handleLogout} onNavigate={handleNavigate} />;
       default: return null;
     }
   };
 
   const isInternalPage = [
-    'dashboard', 'applications', 'shortlisting', 'interviews', 'settings', 'help',
     'profile', 'feedback', 'admindashboard'
   ].includes(currentPage);
 
   const pageContent = renderPage();
-  const location = useLocation();
 
   // If path starts with /student, wrap in sidebars
   if (location.pathname.startsWith('/student')) {
@@ -140,7 +158,8 @@ function App() {
       <EmployerJobsProvider>
         <div className="App">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={!currentPage ? <HomePage /> : null} />
+            <Route path="/login" element={<Login onNavigate={handleNavigate} setLoggedUser={handleSetUser} />} />
             <Route path="/opportunities" element={<Opportunities />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/about" element={<About />} />

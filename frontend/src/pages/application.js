@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 import { createSubmission, fetchJob, incrementJobView } from "../api";
 import { getJobScheduleStatus, getJobTimingLabel } from "../utils/jobSchedule";
 import styles from "../styles/application.module.css";

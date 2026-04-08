@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/MainLayout.css';
 
 function MainLayout({ children, onNavigate, userData, currentPage }) {
+    const navigate = useNavigate();
     const userName = userData ? `${userData.firstName} ${userData.lastName}` : 'Admin User';
     
     // Quick helper to see if a link is active
@@ -22,19 +24,19 @@ function MainLayout({ children, onNavigate, userData, currentPage }) {
                 <div className="sidebar-menu">
                     <p className="menu-label">MAIN</p>
                     <nav>
-                        <button className={`menu-item ${isActive('dashboard')}`} onClick={() => onNavigate('dashboard')}>
+                        <button className={`menu-item ${isActive('admindashboard')}`} onClick={() => onNavigate('admindashboard')}>
                             <span className="icon">🏠</span>
                             <span>Dashboard</span>
                         </button>
-                        <button className="menu-item">
+                        <button className="menu-item" onClick={() => { onNavigate(null); navigate('/student/QuestionBank'); }}>
                             <span className="icon">🎯</span>
                             <span>Career Preparation</span>
                         </button>
-                        <button className="menu-item">
+                        <button className="menu-item" onClick={() => { onNavigate(null); navigate('/employer/dashboard'); }}>
                             <span className="icon">💼</span>
                             <span>Job & Internship</span>
                         </button>
-                        <button className="menu-item">
+                        <button className={`menu-item ${isActive('dashboard')}`} onClick={() => onNavigate('dashboard')}>
                             <span className="icon">👥</span>
                             <span>Recruitment</span>
                             <span className="badge">New</span>

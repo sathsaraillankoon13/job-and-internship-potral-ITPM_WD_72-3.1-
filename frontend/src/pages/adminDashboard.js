@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AdminDashboard.css';
 
-function AdminDashboard() {
+function AdminDashboard({ onLogout, onNavigate }) {
     // Mock Data for Admin
     const [stats] = useState({
         totalUsers: 1240,
@@ -31,6 +31,22 @@ function AdminDashboard() {
             <div className="admin-header">
                 <h2>Admin Dashboard</h2>
                 <p>Overview and system management</p>
+                <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
+                    <button 
+                      onClick={() => window.location.href = '/employer/dashboard'}
+                      className="admin-action-btn edit" 
+                      style={{ padding: '10px 20px', fontSize: '1rem', background: '#DBEAFE', color: '#1E40AF', border: '1px solid #BFDBFE', borderRadius: '8px', cursor: 'pointer' }}
+                    >
+                      Jobs & Internships Management
+                    </button>
+                    <button 
+                      onClick={() => onNavigate('dashboard')} 
+                      className="admin-action-btn approve" 
+                      style={{ padding: '10px 20px', fontSize: '1rem', background: '#DCFCE7', color: '#166534', border: '1px solid #BBF7D0', borderRadius: '8px', cursor: 'pointer' }}
+                    >
+                      Recruitment Management Dashboard
+                    </button>
+                </div>
             </div>
 
             <div className="admin-metrics-grid">

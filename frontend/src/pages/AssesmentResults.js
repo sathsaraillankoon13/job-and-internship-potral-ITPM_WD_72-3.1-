@@ -201,9 +201,9 @@ const AssessmentResults = () => {
       <div className="inner-tabs-wrapper">
         <div className="inner-tabs-content">
           {[
-            { name: 'Take Assessment', path: '/skill-selection' },
-            { name: 'My Results', path: '/assessment-results' },
-            { name: 'History', path: '/assessment-history' }
+            { name: 'Take Assessment', path: '/student/skill-selection' },
+            { name: 'My Results', path: '/student/assessment-results' },
+            { name: 'History', path: '/student/assessment-history' }
           ].map(tab => (
             <Link
               key={tab.name}
@@ -241,7 +241,7 @@ const AssessmentResults = () => {
               {isExporting ? 'Exporting...' : 'Export Report'}
             </button>
             <button 
-              onClick={() => navigate('/skill-selection')}
+              onClick={() => navigate('/student/skill-selection')}
               className="action-btn-primary"
             >
               <RefreshCw size={18} strokeWidth={3} />
@@ -407,7 +407,7 @@ const AssessmentResults = () => {
               Ready to test your communication? Proceed to a realistic AI Mock Interview focused on <b>{questions?.[0]?.skill || 'this topic'}</b>.
             </div>
             <button 
-              onClick={() => navigate('/mock-interview')}
+              onClick={() => navigate('/student/mock-interview')}
               className="mt-6 w-full py-4 bg-white text-emerald-600 font-bold rounded-2xl hover:bg-emerald-50 transition-all flex items-center justify-center gap-2"
             >
               Start Interview Now <ArrowRight size={18} />

@@ -177,9 +177,9 @@ const UserDashboard = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <Link to="/mock-interview">
+            <Link to="/student/mock-interview">
               <button className="btn-primary-gradient">
-                Start Mock Interview
+                Start Practice Session Now
               </button>
             </Link>
           </div>
@@ -212,10 +212,10 @@ const UserDashboard = () => {
                   <p className="mb-1"><strong>AI:</strong> Focus on system design, databases, API design — practice projects and algorithms.</p>
                 </div>
                 <div className="flex gap-2">
-                  <Link to="/ai-assistant" className="flex-1">
+                  <Link to="/student/ai-assistant" className="flex-1">
                     <button className="btn-primary-gradient w-full">Open Chat</button>
                   </Link>
-                  <Link to="/ai-assistant" className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center">
+                  <Link to="/student/ai-assistant" className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center">
                     <MessageSquare size={16} />
                   </Link>
                 </div>
@@ -230,7 +230,7 @@ const UserDashboard = () => {
             <div className="card-cyan group">
               <div className="flex justify-between items-center mb-8">
                 <h3 className="section-title-large text-white">Skill Matrix</h3>
-                <Link to="/skill-selection" className="text-[11px] font-bold text-blue-600 flex items-center gap-1.5 hover:text-blue-700 transition-colors">
+                <Link to="/student/assessment" className="text-[11px] font-bold text-blue-600 flex items-center gap-1.5 hover:text-blue-700 transition-colors">
                   Take New Assessment <ArrowRight size={14} strokeWidth={3} />
                 </Link>
               </div>
@@ -262,7 +262,7 @@ const UserDashboard = () => {
             <div>
               <div className="flex justify-between items-center mb-5 pl-1">
                 <h3 className="section-title-large text-slate-800">Curated Opportunities</h3>
-                <Link to="/recommendations" className="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-wider">
+                <Link to="/student/recommendations" className="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-wider">
                   View all
                 </Link>
               </div>
@@ -336,7 +336,7 @@ const UserDashboard = () => {
                       <p className="text-[12px] text-slate-400">Ask about skills, roadmaps, interview tips, or request a fast summary.</p>
                     </div>
                     <div>
-                      <Link to="/ai-assistant">
+                      <Link to="/student/ai-assistant">
                         <button className="btn-primary-gradient">Open Chat</button>
                       </Link>
                     </div>
@@ -352,7 +352,12 @@ const UserDashboard = () => {
 
                 {/* Right: Career Timeline */}
                 <div className="flex-1">
-                  <h3 className="section-title-large text-slate-900 mb-6">Career Timeline</h3>
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="section-title-large text-slate-900">Career Timeline</h3>
+                    <Link to="/student/assessment-history" className="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-wider">
+                      View history
+                    </Link>
+                  </div>
 
                   <div className="relative">
                     <div className="timeline-line"></div>

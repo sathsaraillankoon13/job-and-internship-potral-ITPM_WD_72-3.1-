@@ -1,41 +1,39 @@
-export default function Footer() {
-  const links = {
-    "For Students": ["Browse Jobs", "Internships", "Full-time Roles", "Saved Listings"],
-    Company: ["About Us", "Contact"],
-  };
+import React from 'react';
+import { Zap } from 'lucide-react';
+import '../styles/Footer.css';
 
+import logo from '../assets/logo.png';
+
+const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 px-4 pb-8 pt-16 text-white lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3 className="text-xl font-black tracking-tight">
-              Career<span className="text-skyBrand-300">Bridge</span>
-            </h3>
-            <p className="mt-3 max-w-xs text-sm text-white/60">
-              Connecting Sri Lankan students with top employers and making the path from campus to career simple.
-            </p>
+    <footer className="footer-container">
+      <div className="footer-content">
+        
+        {/* Brand & Logo */}
+        <div className="footer-brand group">
+          <div className="footer-brand-icon">
+            <img src={logo} alt="CareerBridge Logo" className="w-6 h-6 object-contain" />
           </div>
-
-          {Object.entries(links).map(([title, items]) => (
-            <div key={title}>
-              <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-white/50">{title}</h4>
-              <div className="space-y-2">
-                {items.map((item) => (
-                  <button key={item} type="button" className="block text-sm text-white/70 transition hover:text-white">
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
+          <span className="footer-brand-text">
+            Career<span className="footer-brand-accent">Bridge</span>
+          </span>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/50">
-          <p>Copyright 2025 CareerBridge. All rights reserved.</p>
-          <p>Built for students across Sri Lanka.</p>
+        {/* Links */}
+        <div className="footer-links">
+          <a href="#" className="footer-link">Job Listing</a>
+          <a href="#" className="footer-link">Skill Selection</a>
+          <a href="#" className="footer-link">Mock Interviews</a>
+          <a href="#" className="footer-link">Career Match</a>
         </div>
+
+        {/* Copyright */}
+        <p className="footer-copyright">
+          © 2024 Career Bridge. All rights reserved.
+        </p>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

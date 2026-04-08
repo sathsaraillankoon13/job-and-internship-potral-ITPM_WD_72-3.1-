@@ -166,7 +166,7 @@ const AssessmentHistory = () => {
              </p>
              {!searchTerm && activeTab === 'assessments' && (
                <button 
-                 onClick={() => navigate('/skill-selection')} 
+                 onClick={() => navigate('/student/skill-selection')} 
                  className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
                >
                  Take an Assessment
@@ -174,7 +174,7 @@ const AssessmentHistory = () => {
              )}
              {!searchTerm && activeTab === 'interviews' && (
                <button 
-                 onClick={() => navigate('/mock-interview')} 
+                 onClick={() => navigate('/student/mock-interview')} 
                  className="px-8 py-4 bg-[#0238AD] text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
                >
                  Start AI Interview
@@ -229,12 +229,12 @@ const AssessmentHistory = () => {
               <button
                 onClick={() => {
                   if (activeTab === 'assessments') {
-                    navigate('/assessment-results', { 
+                    navigate('/student/assessment-results', { 
                       state: { questions: item.questions, selectedAnswers: item.selectedAnswers, score: item.score, totalQuestions: item.totalQuestions, quizTitle: item.quizTitle } 
                     });
                   } else {
                     // Navigate to mock interview result summary page
-                    navigate('/mock-interview', { state: { evaluation: item } });
+                    navigate('/student/mock-interview', { state: { evaluation: item } });
                   }
                 }}
                 className="view-results-btn"

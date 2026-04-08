@@ -29,29 +29,29 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     {
       title: "Home",
       items: [
-        { name: "Dashboard", icon: LayoutDashboard, path: "/" },
+        { name: "Dashboard", icon: LayoutDashboard, path: "/student/dashboard" },
       ]
     },
     {
       title: "Preparation",
       items: [
-        { name: "Skill Assessment", icon: ClipboardCheck, path: "/skill-selection" },
-        { name: "Mock Interview", icon: Video, path: "/mock-interview" },
-        { name: "AI Assistant", icon: MessageSquare, path: "/ai-assistant" },
-        { name: "History", icon: History, path: "/assessment-history" },
+        { name: "Skill Assessment", icon: ClipboardCheck, path: "/student/skill-selection" },
+        { name: "Mock Interview", icon: Video, path: "/student/mock-interview" },
+        { name: "AI Assistant", icon: MessageSquare, path: "/student/ai-assistant" },
+        { name: "History", icon: History, path: "/student/assessment-history" },
       ]
     },
     {
       title: "Opportunities",
       items: [
-        { name: "Smart Recommendations", icon: Sparkles, path: "/recommendations" },
+        { name: "Smart Recommendations", icon: Sparkles, path: "/student/recommendations" },
       ]
     },
     ...(userType === 'admin' ? [{
       title: "Administration",
       items: [
-        { name: "Question Bank", icon: Database, path: "/QuestionBank" },
-        { name: "System Analytics", icon: BarChart3, path: "/SystemAnalytics" },
+        { name: "Question Bank", icon: Database, path: "/student/QuestionBank" },
+        { name: "System Analytics", icon: BarChart3, path: "/student/SystemAnalytics" },
       ]
     }] : []),
   ];

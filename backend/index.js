@@ -18,6 +18,7 @@ const interviewsRoute = require("./routes/interviews");
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
+const questionsRoutes = require('./routes/questions');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -39,6 +40,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // ====================== ROUTES ======================
 
 // API Routes
+app.use("/api/questions", questionsRoutes);
 app.use("/api/candidates", candidatesRoute);
 app.use("/api/applications", applicationsRoute);
 app.use("/api/interviews", interviewsRoute);

@@ -1,0 +1,285 @@
+/* User Dashboard Styles */
+.dashboard-container {
+  @apply flex-1 bg-[#F8FAFC] w-full flex flex-col font-sans pb-16 text-slate-900;
+}
+
+.dashboard-hero {
+  @apply relative overflow-hidden bg-white pt-8 pb-12 px-6 lg:px-10 border-b border-slate-200;
+}
+
+.hero-badge {
+  @apply inline-flex items-center gap-2 bg-blue-50 text-blue-600 font-bold text-[11px] px-3 py-1 rounded-lg uppercase tracking-wider border border-blue-100 mb-6;
+}
+
+.hero-title {
+  @apply text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4;
+}
+
+.hero-title-accent {
+  @apply text-blue-600;
+}
+
+.hero-subtitle {
+  @apply text-slate-500 text-[14px] md:text-[15px] font-medium max-w-xl leading-relaxed;
+}
+
+.dashboard-content {
+  @apply max-w-7xl mx-auto w-full px-6 lg:px-10 -mt-6 relative z-20;
+}
+
+/* Quick Stats Section */
+.stats-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8;
+}
+
+.stat-card {
+  @apply bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between transition-all hover:shadow-md hover:-translate-y-0.5;
+}
+
+.stat-header {
+  @apply flex justify-between items-start mb-4;
+}
+
+.stat-icon-box {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105;
+}
+
+.stat-value {
+  @apply text-2xl font-bold text-slate-900 tracking-tight leading-none mb-1;
+}
+
+.stat-label {
+  @apply text-slate-400 font-bold text-[10px] uppercase tracking-widest;
+}
+
+/* Main Cards Grid */
+.main-cards-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8;
+}
+
+.action-card {
+  @apply lg:col-span-2 bg-white rounded-3xl p-8 md:p-10 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-center gap-8;
+}
+
+.action-card-gradient {
+  @apply absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-[80px] -mr-16 -mt-16 pointer-events-none;
+}
+
+.action-card-image {
+  @apply w-full md:w-[40%] h-48 md:h-64 rounded-2xl overflow-hidden shadow-lg ring-1 ring-slate-100 relative shrink-0;
+}
+
+.action-card-content {
+  @apply flex-1 text-center md:text-left;
+}
+
+.action-card-badge {
+  @apply inline-block bg-blue-50 text-blue-600 font-bold text-[10px] px-3 py-1 rounded-lg mb-4 uppercase tracking-wider border border-blue-100;
+}
+
+.action-card-title {
+  @apply text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4;
+}
+
+.action-btn {
+  @apply px-8 py-3 bg-blue-600 text-white rounded-xl font-bold text-[14px] hover:bg-blue-700 shadow-md shadow-blue-100 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2 w-full md:w-auto;
+}
+
+/* Side Card */
+.side-card {
+  @apply bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-lg;
+}
+
+.side-card-badge {
+  @apply w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-8 border border-white/20 text-blue-400;
+}
+
+.side-card-title {
+  @apply text-xl font-bold tracking-tight leading-tight mb-3;
+}
+
+.side-card-desc {
+  @apply text-slate-400 text-[13px] font-medium leading-relaxed mb-8;
+}
+
+/* Recommendation Section */
+.rec-section-title {
+  @apply text-lg font-bold text-slate-900 tracking-tight flex items-center gap-3 mb-6 pl-1;
+}
+
+.rec-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+}
+
+.rec-card {
+  @apply bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-4 hover:shadow-md transition-all;
+}
+
+.rec-card-icon {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center bg-slate-50 text-blue-600 border border-slate-100;
+}
+
+.rec-card-title {
+  @apply text-[15px] font-bold text-slate-900 tracking-tight;
+}
+
+.rec-card-meta {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.rec-tag {
+  @apply px-2 py-0.5 bg-slate-100 text-slate-500 rounded-md text-[9px] font-bold uppercase tracking-wider;
+}
+
+.rec-btn {
+  @apply w-full py-2.5 bg-slate-50 text-slate-700 rounded-lg font-bold text-[12px] hover:bg-blue-600 hover:text-white transition-all mt-1 border border-slate-200;
+}
+
+/* Isolated Dashboard Control Card - Light Sky Blue Theme */
+.dashboard-control-card {
+  @apply bg-[#D0E7FF] p-4 rounded-2xl border border-blue-200 shadow-sm flex justify-between items-center gap-4 mb-8 mt-6 transition-all hover:shadow-md;
+}
+
+.search-wrapper {
+  @apply flex-1 relative max-w-xl;
+}
+
+.search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-blue-600/70;
+}
+
+.search-input {
+  @apply w-full bg-white/40 border border-blue-200 rounded-xl py-2 px-10 text-[13px] text-slate-900 focus:ring-4 focus:ring-blue-100/50 focus:border-blue-400 outline-none transition-all placeholder-blue-900/40 font-medium;
+}
+
+.user-controls {
+  @apply flex items-center gap-3;
+}
+
+.user-profile-btn {
+  @apply flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-white/40 transition-colors cursor-pointer;
+}
+
+.user-avatar {
+  @apply w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs shadow-sm;
+}
+
+.user-name {
+  @apply text-[13px] font-bold text-slate-800 hidden md:block;
+}
+
+.divider-v {
+  @apply h-6 w-[1px] bg-blue-200 hidden md:block;
+}
+
+.notification-btn {
+  @apply p-2 rounded-xl bg-white/40 text-blue-600 hover:bg-blue-600 hover:text-white transition-all relative cursor-pointer border border-blue-200;
+}
+
+.notification-dot {
+  @apply absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full border-2 border-[#D0E7FF];
+}
+
+/* Dashboard Grid Layout Refinement */
+.dashboard-grid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-6;
+}
+
+.column-left {
+  @apply lg:col-span-4 flex flex-col gap-6;
+}
+
+.column-right {
+  @apply lg:col-span-8 flex flex-col gap-6;
+}
+
+/* Profile Completion Card */
+.card-sky {
+  @apply bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center;
+}
+
+.card-indigo {
+  @apply bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex flex-col;
+}
+
+/* Skill Matrix - Dark Navy Theme */
+.card-cyan {
+  @apply bg-[#0238AD] p-7 rounded-3xl border border-white/5 shadow-xl transition-all hover:shadow-2xl text-white;
+}
+
+
+
+.card-job-blue {
+  @apply bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all;
+}
+
+.card-job-slate {
+  @apply bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all;
+}
+
+/* Career Timeline - Light Blue Theme */
+.card-white {
+  @apply bg-[#D0E7FF] p-6 rounded-3xl border border-blue-200 shadow-sm transition-all hover:shadow-md;
+}
+
+.skill-bar-bg {
+  @apply w-full h-2 bg-white/10 rounded-full overflow-hidden mt-2;
+}
+
+.section-title-large {
+  @apply text-lg font-bold text-slate-900 tracking-tight;
+}
+
+.timeline-line {
+  @apply absolute left-[23px] top-6 bottom-6 w-[1px] bg-slate-200;
+}
+
+.timeline-icon-box {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center relative z-10 border border-slate-100 shadow-sm bg-white;
+}
+
+.timeline-content-card {
+  @apply flex-1 pt-0.5 flex justify-between items-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-100 transition-all hover:bg-white;
+}
+
+.welcome-section {
+  @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8;
+}
+
+.welcome-title {
+  @apply text-2xl font-bold text-slate-900 tracking-tight leading-tight;
+}
+
+.welcome-subtitle {
+  @apply text-slate-500 font-medium text-[14px] mt-1;
+}
+
+.top-percent-badge {
+  @apply text-blue-600 font-bold;
+}
+
+.btn-primary-gradient {
+  @apply px-6 py-2.5 bg-blue-600 text-white rounded-lg font-bold text-[13px] hover:bg-blue-700 shadow-sm transition-all;
+}
+
+.btn-outline {
+  @apply px-6 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-bold text-[13px] hover:bg-slate-50 transition-all;
+}
+
+.dashboard-link {
+  @apply font-bold text-blue-600 hover:text-blue-700 transition-colors border-b border-blue-200;
+}
+
+/* Force Skill Matrix White Typography */
+.card-cyan .section-title-large {
+  color: #ffffff !important;
+}
+
+.card-cyan a, 
+.card-cyan a svg {
+  color: #ffffff !important;
+}
+
+.card-cyan .skill-item span:first-child {
+  color: #ffffff !important;
+}

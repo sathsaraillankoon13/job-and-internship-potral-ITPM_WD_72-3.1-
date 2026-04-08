@@ -1,0 +1,212 @@
+/* Flat Auth Style */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f7ff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.login-card {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #E2E8F0;
+}
+
+/* Left/Illustration Side */
+.login-left {
+    flex: 1;
+    background: #2563EB; /* Primary Dashboard Blue */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.login-illustration-container {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 30px;
+    z-index: 2;
+}
+
+.login-illustration {
+    width: 100%;
+    height: auto;
+}
+
+.login-lorem-text {
+    z-index: 2;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #E0F2FE;
+    max-width: 80%;
+}
+
+/* Right/Form Side */
+.login-right {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.welcome-tag {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: #DBEAFE;
+    color: #1D4ED8;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.login-form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 360px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.login-title {
+    font-size: 2rem;
+    color: #1E293B;
+    margin: 0 0 32px 0;
+    font-weight: 700;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-input {
+    padding: 14px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background: #F8FAFC;
+    color: #1E293B;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #2563EB;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.login-input::placeholder {
+    color: #94A3B8;
+}
+
+.login-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 14px;
+    background: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(37,99,235,0.2);
+}
+
+.login-button:hover {
+    background: #1D4ED8;
+}
+
+.create-account-link-container {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.create-account-link {
+    color: #2563EB !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.create-account-link:hover {
+    color: #1E40AF !important;
+    text-decoration: underline;
+}
+
+.forgot-password-container {
+    text-align: center;
+    margin-top: auto;
+}
+
+.forgot-password-link {
+    color: #64748B;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.forgot-password-link:hover {
+    color: #1E293B;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 20px;
+    }
+    
+    .login-card {
+        flex-direction: column;
+        height: auto;
+        min-height: 600px;
+    }
+    
+    .login-left {
+        display: none; /* Hide illustration on mobile for cleaner look */
+    }
+    
+    .login-right {
+        padding: 30px;
+    }
+
+    .welcome-tag {
+        display: none;
+    }
+}

@@ -19,6 +19,8 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const questionsRoutes = require('./routes/questions');
+const interviewRoutes = require('./routes/interviewRoutes');
+
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -51,6 +53,8 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/interview", interviewRoutes);
+
 
 // Health Check & Root Route
 app.get("/", (req, res) => {

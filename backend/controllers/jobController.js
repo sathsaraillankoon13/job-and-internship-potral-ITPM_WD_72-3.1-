@@ -123,13 +123,14 @@ async function getAllJobs(req, res, next) {
       const visibleExpiredCutoff = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
 
       cards = cards.filter((item) => {
-        const rawStatus = String(item.sourceStatus || "").toLowerCase();
+        const rawStatus = String(item.sourceStatus || "").toLowerCase().trim();
 
-        if (rawStatus === "active" || rawStatus === "scheduled") {
+        // STRICT: Only allow 'active' for students. Exclude 'scheduled' from discovery.
+        if (rawStatus === "active") {
           return true;
         }
 
-        if (item.status === "Active" || item.status === "Scheduled") {
+        if (item.status === "Active") {
           return true;
         }
 

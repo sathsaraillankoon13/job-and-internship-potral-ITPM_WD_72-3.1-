@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronRight, User } from "lucide-react";
 import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
 import { fetchJobs } from "../api";
@@ -187,6 +188,8 @@ export default function HomePage({ user }) {
                   Everything is curated, structured, and searchable in one place.
                 </p>
 
+
+
                 <form
                   onSubmit={handleHeroSearch}
                   className="mx-auto mt-8 flex w-full max-w-2xl flex-col gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur md:flex-row"
@@ -275,7 +278,7 @@ export default function HomePage({ user }) {
                     </p>
                     <button
                       type="button"
-                      onClick={() => navigate(user ? "/student/assessment" : "/student-register")}
+                      onClick={() => navigate(user ? "/student/skill-selection" : "/student-register")}
                       className="mt-5 rounded-xl border border-skyBrand-300/60 bg-skyBrand-500/20 px-4 py-2 text-sm font-bold hover:bg-skyBrand-600"
                     >
                       {user ? "Take Skills Assessment" : "Create free profile"}

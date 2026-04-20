@@ -89,11 +89,17 @@ function App() {
   const handleSetUser = (user) => {
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
+      const userId = user.id || user._id;
+      if (userId) {
+        localStorage.setItem('userId', userId);
+      }
     } else {
       localStorage.removeItem('user');
+      localStorage.removeItem('userId');
     }
     setLoggedUser(user);
   };
+
 
   const handleLogout = () => {
     handleSetUser(null);
@@ -156,6 +162,7 @@ function App() {
                 <Route path="/student/feedback" element={<InterviewFeedback />} />
                 <Route path="/student/ai-assistant" element={<AICareerAssistant />} />
                 <Route path="/student/question-card" element={<QuestionCard />} />
+                <Route path="/student/profile" element={<Profile onNavigate={handleNavigate} userData={loggedUser} setUserData={handleSetUser} />} />
               </Routes>
             </div>
             <Footer />
@@ -172,9 +179,10 @@ function App() {
           <Routes>
             <Route path="/" element={!currentPage ? (
               (loggedUser?.role === 'admin' || loggedUser?.type === 'admin') 
-                ? <AdminDashboard onLogout={handleLogout} onNavigate={handleNavigate} />
+                ? <AdminDashboard onLogout={handleLogout} />
                 : <HomePage user={loggedUser} />
             ) : null} />
+            <Route path="/admin/dashboard" element={<AdminDashboard onLogout={handleLogout} />} />
 
             <Route path="/login" element={<Login onNavigate={handleNavigate} setLoggedUser={handleSetUser} />} />
             <Route path="/opportunities" element={<Opportunities user={loggedUser} />} />
@@ -190,6 +198,7 @@ function App() {
 
             <Route path="/employer/manage-job-posts" element={<ManageJobPostsPage />} />
             <Route path="/employer/analytics" element={<AnalyticsPage />} />
+            <Route path="/admin/feedbacks" element={<Feedback onNavigate={handleNavigate} userData={loggedUser} />} />
             <Route path="/student-register" element={<Register />} />
           </Routes>
         </div>

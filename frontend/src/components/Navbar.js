@@ -10,7 +10,7 @@ const employerLinks = ["Post a Job", "My Listings", "Applications", "Pricing", "
 const studentRouteMap = {
   Home: "/",
   Jobs: "/opportunities",
-  Skills: "/student/assessment",
+  Skills: "/student/skill-selection",
   Categories: "/categories",
   "About Us": "/about",
   "Contact Us": "/contact",
@@ -138,12 +138,12 @@ export default function Navbar({ variant = "default", user: userProp = null }) {
           )}
 
           {audience === "student" ? (
-            <button
-              type="button"
+            <Link
+              to="/login"
               className="rounded-lg bg-skyBrand-500 px-4 py-2 text-sm font-extrabold text-white shadow-glow transition hover:bg-skyBrand-700"
             >
               Get Started
-            </button>
+            </Link>
           ) : (
             <Link
               to="/employer/post-job"
@@ -230,9 +230,9 @@ export default function Navbar({ variant = "default", user: userProp = null }) {
             )}
 
             {audience === "student" ? (
-              <button type="button" className="flex-1 rounded-lg bg-skyBrand-500 px-3 py-2 text-sm font-bold text-white">
+              <Link to="/login" className="flex-1 flex justify-center items-center rounded-lg bg-skyBrand-500 px-3 py-2 text-sm font-bold text-white transition hover:bg-skyBrand-700">
                 Get Started
-              </button>
+              </Link>
             ) : (
               <Link to="/employer/post-job" className="flex-1 rounded-lg bg-skyBrand-500 px-3 py-2 text-center text-sm font-bold text-white">
                 Post a Job

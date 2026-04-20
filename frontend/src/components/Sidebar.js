@@ -63,12 +63,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
         {/* Header */}
         <div className="sidebar-header">
-          <div className="sidebar-brand group">
-            <div className="sidebar-brand-icon">
-              <img src={logo} alt="CareerBridge Logo" className="w-7 h-7 object-contain" />
+          <Link to="/" className="sidebar-brand group" style={{ textDecoration: 'none' }}>
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 text-sm font-black text-white shadow-md">
+              CB
             </div>
             <span className="sidebar-brand-text">CareerBridge</span>
-          </div>
+          </Link>
           <button
             onClick={() => setIsOpen(false)}
             className="sidebar-close-btn"

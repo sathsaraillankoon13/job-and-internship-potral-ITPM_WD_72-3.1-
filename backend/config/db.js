@@ -11,8 +11,6 @@ const connectDB = async (retryCount = 0) => {
   const MAX_RETRIES = 5;
   try {
     const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 30000,
-      socketTimeoutMS: 60000,
       family: 4
     });
     console.log(`MongoDB connected: ${conn.connection.host}`);
@@ -20,11 +18,14 @@ const connectDB = async (retryCount = 0) => {
     console.error(`MongoDB connection error (Attempt ${retryCount + 1}):`, error.message);
     if (retryCount < MAX_RETRIES) {
       console.log(`Retrying in 5 seconds...`);
-      setTimeout(() => connectDB(retryCount + 1), 5000);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      return connectDB(retryCount + 1);
     } else {
       console.error('MAX_RETRIES reached. Could not connect to MongoDB.');
+      throw error;
     }
   }
+
 };
 
 module.exports = connectDB;

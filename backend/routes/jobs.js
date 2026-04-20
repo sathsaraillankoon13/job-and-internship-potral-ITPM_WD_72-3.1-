@@ -12,8 +12,10 @@ const {
 } = require("../controllers/jobController");
 
 const router = express.Router();
+const recommendationController = require("../controllers/recommendationController");
 
 router.route("/").get(getAllJobs).post(createJob);
+router.get("/recommended", recommendationController.getSmartRecommendations);
 router.route("/:id").get(getJobById).put(updateJob).delete(deleteJob);
 router.post("/:id/view", trackJobView);
 router.put("/:id/view", incrementJobView);

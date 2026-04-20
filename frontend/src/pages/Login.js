@@ -24,11 +24,11 @@ function Login({ onNavigate, setLoggedUser }) {
 
         const userRole = (data.role || data.type || 'student').toLowerCase();
         if (userRole === 'admin') {
-          onNavigate('admindashboard');
+          onNavigate('/admin/dashboard');
         } else if (userRole === 'employer' || userRole === 'company') {
           onNavigate('/employer/dashboard');
         } else {
-          onNavigate('home');
+          onNavigate('/student/dashboard');
         }
       } else {
         setError(data.message || 'Invalid credentials');

@@ -13,6 +13,11 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: "Username already exists" });
     }
 
+    let emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 

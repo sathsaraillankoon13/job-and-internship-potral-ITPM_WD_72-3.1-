@@ -33,7 +33,7 @@ function Signup({ onNavigate, setLoggedUser }) {
             if (response.ok) {
                 if (setLoggedUser) setLoggedUser(data);
                 console.log("Account created successfully!");
-                onNavigate('dashboard');
+                onNavigate('home');
             } else {
                 setError(data.message || 'Signup failed');
             }

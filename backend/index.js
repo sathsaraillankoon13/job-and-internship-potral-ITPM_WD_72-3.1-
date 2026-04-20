@@ -20,6 +20,8 @@ const userRoutes = require('./routes/userRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const questionsRoutes = require('./routes/questions');
 const interviewRoutes = require('./routes/interviewRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
+
 
 
 const app = express();
@@ -54,6 +56,8 @@ app.use("/api/submissions", submissionRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/interview", interviewRoutes);
+app.use("/api/recommendations", recommendationRoutes);
+
 
 
 // Health Check & Root Route

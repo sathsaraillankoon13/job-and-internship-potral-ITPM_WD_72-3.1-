@@ -56,6 +56,7 @@ function AdminDashboard({ onLogout }) {
     const [activeActionId, setActiveActionId] = useState("");
     const [isExportingRegistrations, setIsExportingRegistrations] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
     const [editingUser, setEditingUser] = useState(null);
     const [editForm, setEditForm] = useState({
         name: '',
@@ -132,7 +133,6 @@ function AdminDashboard({ onLogout }) {
         const data = await fetchJobs({ approvalStatus: "Pending" });
         setPendingJobs(Array.isArray(data) ? data : []);
     };
-
     const handleAction = async (type, item) => {
         if (type === 'Edit') {
             setEditingUser(item);

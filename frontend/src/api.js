@@ -122,6 +122,17 @@ export async function deleteJob(jobId) {
   return response.data;
 }
 
+export async function fetchPendingJobs() {
+  const response = await api.get("/jobs/admin/pending");
+  return response.data;
+}
+
+export async function updateJobApproval(jobId, approvalStatus) {
+  const response = await api.patch(`/jobs/${jobId}/approval`, { approvalStatus });
+  emitJobsUpdated();
+  return response.data;
+}
+
 export async function createSubmission(payload) {
   const response = await api.post("/submissions", payload, {
     headers: {

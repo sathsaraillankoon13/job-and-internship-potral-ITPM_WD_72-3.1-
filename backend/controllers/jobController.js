@@ -63,6 +63,7 @@ function buildJobPayload(body) {
     salary: body.salaryStipend,
     applicants: Number(body.applicants || 0),
     status: body.status,
+    approvalStatus: body.approvalStatus || "Pending",
   };
 }
 
@@ -124,6 +125,12 @@ async function getAllJobs(req, res, next) {
 
       cards = cards.filter((item) => {
         const rawStatus = String(item.sourceStatus || "").toLowerCase().trim();
+        const approvalStatus = String(item.approvalStatus || "").trim();
+
+        // STRICT: Only allow 'Approved' jobs for students.
+        if (approvalStatus !== "Approved") {
+          return false;
+        }
 
         // STRICT: Only allow 'active' for students. Exclude 'scheduled' from discovery.
         if (rawStatus === "active") {
@@ -352,6 +359,40 @@ async function incrementJobView(req, res, next) {
   }
 }
 
+async function getPendingJobs(req, res, next) {
+  try {
+    const jobs = await Job.find({ approvalStatus: "Pending" }).sort({ createdAt: -1 });
+    res.json(jobs.map(toJobCard));
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function updateApprovalStatus(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { approvalStatus } = req.body;
+
+    if (!["Approved", "Rejected", "Pending"].includes(approvalStatus)) {
+      return res.status(400).json({ message: "Invalid approval status" });
+    }
+
+    const job = await Job.findByIdAndUpdate(
+      id,
+      { approvalStatus },
+      { new: true, runValidators: true }
+    );
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.json(toJobCard(job));
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createJob,
   closeJob,
@@ -362,4 +403,6 @@ module.exports = {
   incrementJobView,
   trackJobView,
   updateJob,
+  getPendingJobs,
+  updateApprovalStatus,
 };

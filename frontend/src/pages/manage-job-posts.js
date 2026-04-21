@@ -13,6 +13,12 @@ const statusClass = {
   draft: "bg-amber-100 text-amber-700",
 };
 
+const approvalStatusClass = {
+  Pending: "bg-orange-100 text-orange-700",
+  Approved: "bg-emerald-100 text-emerald-700",
+  Rejected: "bg-red-100 text-red-600",
+};
+
 const displayStatus = (status) => status.charAt(0).toUpperCase() + status.slice(1);
 
 export default function ManageJobPostsPage() {
@@ -144,16 +150,17 @@ export default function ManageJobPostsPage() {
       </section>
 
       <section className="overflow-hidden rounded-2xl border border-[#0262BA]/25 bg-gradient-to-br from-sky-50 to-[#0262BA]/[0.03] shadow-[0_10px_30px_rgba(2,98,186,0.14)]">
-        <div className="hidden grid-cols-[2fr,1fr,1fr,1fr,1.2fr] bg-gradient-to-r from-[#0262BA]/10 to-sky-50 px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-[#0262BA] lg:grid">
+        <div className="hidden grid-cols-[2fr,1fr,0.8fr,1fr,1.1fr,1.2fr] bg-gradient-to-r from-[#0262BA]/10 to-sky-50 px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-[#0262BA] lg:grid">
           <p>Job Title</p>
           <p>Category</p>
           <p>Applicants</p>
           <p>Status</p>
+          <p>Approval Status</p>
           <p>Actions</p>
         </div>
 
         {rows.map((job) => (
-          <div key={job._id || job.id} className="grid gap-3 border-b border-[#0262BA]/10 px-5 py-3 last:border-0 lg:grid-cols-[2fr,1fr,1fr,1fr,1.2fr] lg:items-center">
+          <div key={job._id || job.id} className="grid gap-3 border-b border-[#0262BA]/10 px-5 py-3 last:border-0 lg:grid-cols-[2fr,1fr,0.8fr,1fr,1.1fr,1.2fr] lg:items-center">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100">{job.icon}</span>
               <div>
@@ -179,6 +186,12 @@ export default function ManageJobPostsPage() {
                   </span>
                 );
               })()}
+            </div>
+
+            <div>
+              <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${approvalStatusClass[job.approvalStatus] || approvalStatusClass.Pending}`}>
+                {job.approvalStatus || "Pending"}
+              </span>
             </div>
 
             <div className="flex gap-2">

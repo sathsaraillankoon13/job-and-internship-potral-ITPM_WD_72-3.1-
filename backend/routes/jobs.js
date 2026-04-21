@@ -9,6 +9,8 @@ const {
   incrementJobView,
   trackJobView,
   updateJob,
+  getPendingJobs,
+  updateApprovalStatus,
 } = require("../controllers/jobController");
 
 const router = express.Router();
@@ -23,5 +25,7 @@ router.post("/:id/increment-view", trackJobView);
 router.put("/:id/increment-view", incrementJobView);
 router.route("/:id/close").patch(closeJob);
 router.route("/:id/applications").get(getJobApplications);
+router.get("/admin/pending", getPendingJobs);
+router.patch("/:id/approval", updateApprovalStatus);
 
 module.exports = router;

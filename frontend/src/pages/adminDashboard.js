@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminLayout from '../components/AdminLayout';
+import { fetchPendingJobs, updateJobApproval } from '../api';
 
 function AdminDashboard({ onLogout }) {
     // Mock Data for Admin
-    const [stats] = useState({
+    const [stats, setStats] = useState({
         totalUsers: 1240,
         activeJobs: 85,
-        pendingApprovals: 12,
+        pendingApprovals: 0,
         totalFeedbacks: 342
     });
 
@@ -16,13 +17,39 @@ function AdminDashboard({ onLogout }) {
         { id: 3, name: "Alex Johnson", role: "Student", date: "2026-04-07", status: "Active" },
     ]);
 
-    const [pendingJobs] = useState([
-        { id: 101, company: "TechCorp Labs", title: "Frontend Intern", date: "2026-04-06" },
-        { id: 102, company: "DataSync", title: "Data Analyst Trainee", date: "2026-04-07" }
-    ]);
+    const [pendingJobs, setPendingJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleAction = (type, item) => {
-        alert(`${type} action executed for ${item.name || item.title}! (Simulated)`);
+    const loadData = useCallback(async () => {
+        try {
+            setLoading(true);
+            const jobs = await fetchPendingJobs();
+            setPendingJobs(jobs);
+            setStats(prev => ({ ...prev, pendingApprovals: jobs.length }));
+        } catch (error) {
+            console.error("Failed to load pending jobs:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
+
+    const handleAction = async (type, item) => {
+        if (type === 'Approve' || type === 'Reject') {
+            const approvalStatus = type === 'Approve' ? 'Approved' : 'Rejected';
+            try {
+                await updateJobApproval(item._id || item.id, approvalStatus);
+                alert(`Job ${type === 'Approve' ? 'approved' : 'rejected'} successfully!`);
+                loadData();
+            } catch (error) {
+                alert(`Failed to ${type.toLowerCase()} job: ` + (error.response?.data?.message || error.message));
+            }
+        } else {
+            alert(`${type} action executed for ${item.name || item.title}! (Simulated)`);
+        }
     };
 
     return (
@@ -127,8 +154,16 @@ function AdminDashboard({ onLogout }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#0262BA]/10">
-                                {pendingJobs.map((job) => (
-                                    <tr key={job.id} className="hover:bg-[#0262BA]/5 transition-colors">
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="3" className="py-8 text-center text-sm text-slate-500">Loading pending jobs...</td>
+                                    </tr>
+                                ) : pendingJobs.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="3" className="py-8 text-center text-sm text-slate-500">No pending approvals</td>
+                                    </tr>
+                                ) : pendingJobs.map((job) => (
+                                    <tr key={job._id || job.id} className="hover:bg-[#0262BA]/5 transition-colors">
                                         <td className="whitespace-nowrap py-4 pl-6 pr-3">
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-bold text-slate-900">{job.title}</span>
@@ -136,7 +171,7 @@ function AdminDashboard({ onLogout }) {
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-600">
-                                            {job.date}
+                                            {new Date(job.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-right text-sm font-medium">
                                             <div className="flex justify-end gap-2">

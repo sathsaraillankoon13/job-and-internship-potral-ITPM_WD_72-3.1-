@@ -7,6 +7,7 @@ const {
   getJobApplications,
   getJobById,
   incrementJobView,
+  setJobApprovalStatus,
   trackJobView,
   updateJob,
 } = require("../controllers/jobController");
@@ -17,6 +18,7 @@ const recommendationController = require("../controllers/recommendationControlle
 router.route("/").get(getAllJobs).post(createJob);
 router.get("/recommended", recommendationController.getSmartRecommendations);
 router.route("/:id").get(getJobById).put(updateJob).delete(deleteJob);
+router.patch("/:id/approval", setJobApprovalStatus);
 router.post("/:id/view", trackJobView);
 router.put("/:id/view", incrementJobView);
 router.post("/:id/increment-view", trackJobView);

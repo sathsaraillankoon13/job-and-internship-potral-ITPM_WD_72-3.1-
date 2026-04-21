@@ -46,6 +46,7 @@ function mapJobCard(job) {
     startAt: job.startAt || job.startDate,
     expiresAt: job.expiresAt || job.applicationDeadline,
     status: job.status || "Scheduled",
+    approvalStatus: job.approvalStatus || "Approved",
   };
 }
 
@@ -69,7 +70,8 @@ export default function HomePage({ user }) {
 
     try {
       const data = await fetchJobs({ audience: "student" });
-      setJobs(Array.isArray(data) ? data.map(mapJobCard) : []);
+      const mappedJobs = Array.isArray(data) ? data.map(mapJobCard) : [];
+      setJobs(mappedJobs.filter((job) => String(job.approvalStatus || "Approved").toLowerCase() === "approved"));
       if (silent) {
         setError("");
       }

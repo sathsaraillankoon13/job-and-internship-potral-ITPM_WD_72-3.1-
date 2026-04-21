@@ -17,10 +17,15 @@ export default function Setting({ onLogout, onNavigate }) {
     return (
         <div className="flex bg-[#f8f9fa] font-sans h-screen overflow-hidden">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 flex flex-col justify-between hidden md:flex shrink-0 h-full overflow-y-auto">
+            <aside className="w-64 bg-white border-r border-gray-200 flex-col justify-between hidden md:flex shrink-0 h-full overflow-y-auto">
                 <div>
                     <div className="p-6 pb-8">
-                        <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() => { if (onNavigate) onNavigate('admindashboard'); }}
+                            className="flex items-center gap-3 text-left"
+                            title="Go to admin dashboard"
+                        >
                             <div className="bg-[#1e285a] text-white p-2 rounded-lg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                             </div>
@@ -28,7 +33,7 @@ export default function Setting({ onLogout, onNavigate }) {
                                 <h1 className="font-bold text-[#1e285a] leading-tight text-lg">Recruitment Management</h1>
                                 <p className="text-[9px] text-gray-500 font-bold tracking-widest mt-0.5 uppercase">PREMIUM EDITION</p>
                             </div>
-                        </div>
+                        </button>
                     </div>
                     <nav className="space-y-1">
                         <button onClick={() => { if (onNavigate) onNavigate('dashboard') }} className="flex items-center gap-3 px-6 py-3.5 text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-semibold transition-colors w-full text-left">
@@ -70,7 +75,7 @@ export default function Setting({ onLogout, onNavigate }) {
                 {/* Header Navbar */}
                 <header className="bg-white border-b border-gray-100 flex items-center justify-between px-8 py-5 shrink-0 z-10 sticky top-0">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1e285a]">Atelier Talent</h2>
+                        <h2 className="text-xl font-bold text-[#1e285a]">CareerBridge</h2>
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="relative hidden md:block">
@@ -197,11 +202,11 @@ export default function Setting({ onLogout, onNavigate }) {
                                     <div className="space-y-5">
                                         <div>
                                             <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 block">Company Name</label>
-                                            <input type="text" defaultValue="Atelier Talent Inc." className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-[#1034a6] transition-all outline-none text-gray-700" />
+                                            <input type="text" defaultValue="CareerBridge Inc." className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-[#1034a6] transition-all outline-none text-gray-700" />
                                         </div>
                                         <div>
                                             <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 block">Company Website</label>
-                                            <input type="text" defaultValue="https://atelier-talent.io" className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-[#1034a6] transition-all outline-none text-gray-700" />
+                                            <input type="text" defaultValue="https://careerbridge.com" className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-[#1034a6] transition-all outline-none text-gray-700" />
                                         </div>
                                         <div>
                                             <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-1.5 block">About Company</label>

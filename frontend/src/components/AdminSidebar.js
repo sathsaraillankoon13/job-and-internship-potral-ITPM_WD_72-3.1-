@@ -9,8 +9,7 @@ import {
   Settings,
   HelpCircle,
   BookOpen,
-  Database,
-  PieChart
+  Database
 } from 'lucide-react';
 
 const AdminSidebar = ({ isMinimized }) => {
@@ -19,7 +18,6 @@ const AdminSidebar = ({ isMinimized }) => {
 
   const navItems = [
     { label: 'Overview', icon: BarChart3, path: '/admin/dashboard' },
-    { label: 'System Analytics', icon: PieChart, path: '/student/SystemAnalytics' },
     { label: 'Question Bank', icon: Database, path: '/student/QuestionBank' },
     { label: 'Manage Jobs', icon: Briefcase, path: '/employer/dashboard' },
     { label: 'Recruitment', icon: Users, path: '/recruitment-dashboard' },

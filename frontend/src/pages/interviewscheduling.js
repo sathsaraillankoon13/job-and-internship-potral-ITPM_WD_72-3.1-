@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     LayoutDashboard, Briefcase, Users, HelpCircle, LogOut,
-    Search, Bell, Calendar, Clock, Video, Send, CheckCircle, Plus, AlertCircle, Phone, MapPin, Edit3, Trash2, XCircle
+    Search, Bell, Calendar, Clock, Video, Send, CheckCircle, Plus, AlertCircle, Phone, MapPin, Edit3, Trash2, XCircle, Download
 } from 'lucide-react';
 
 export default function InterviewScheduling({ onLogout, onNavigate }) {
@@ -26,6 +26,7 @@ export default function InterviewScheduling({ onLogout, onNavigate }) {
     const [time, setTime] = useState('');
     const [interviewType, setInterviewType] = useState('Video Call');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [isExportingPdf, setIsExportingPdf] = useState(false);
 
     // Edit Interview State
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -102,13 +103,90 @@ export default function InterviewScheduling({ onLogout, onNavigate }) {
         return <MapPin size={14} />;
     };
 
+    const handleExportInterviewPdf = async () => {
+        if (isExportingPdf || interviews.length === 0) {
+            return;
+        }
+
+        setIsExportingPdf(true);
+        try {
+            const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
+                import('jspdf'),
+                import('jspdf-autotable'),
+            ]);
+
+            const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+            const generatedAt = new Date().toLocaleString();
+
+            doc.setFillColor(30, 40, 90);
+            doc.rect(0, 0, doc.internal.pageSize.getWidth(), 72, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.text('CAREERIR BRIDGE', 40, 30);
+            doc.setFontSize(12);
+            doc.text('Interview Scheduling Report', 40, 50);
+
+            doc.setTextColor(71, 85, 105);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text(`Generated at: ${generatedAt}`, 40, 92);
+            doc.text(`Total interviews: ${interviews.length}`, 40, 106);
+
+            const rows = interviews.map((interview) => {
+                const candidate = candidates.find((c) => String(c.id) === String(interview.candidateId));
+                return [
+                    interview.candidateName || '-',
+                    interview.role || '-',
+                    candidate?.location || '-',
+                    interview.date || '-',
+                    interview.time || '-',
+                    interview.type || '-',
+                    interview.status || '-',
+                ];
+            });
+
+            autoTable(doc, {
+                startY: 122,
+                head: [['Candidate', 'Role', 'Location', 'Date', 'Time', 'Format', 'Status']],
+                body: rows,
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 6,
+                    textColor: [30, 41, 59],
+                    overflow: 'linebreak',
+                },
+                headStyles: {
+                    fillColor: [14, 165, 233],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                },
+                alternateRowStyles: {
+                    fillColor: [248, 250, 252],
+                },
+                margin: { left: 24, right: 24 },
+            });
+
+            doc.save(`interview-scheduling-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+        } catch (error) {
+            console.error('Failed to export interview PDF:', error);
+        } finally {
+            setIsExportingPdf(false);
+        }
+    };
+
     return (
         <div className="flex bg-[#f8f9fa] font-sans h-screen overflow-hidden">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 flex flex-col justify-between hidden md:flex shrink-0 h-full overflow-y-auto">
+            <aside className="w-64 bg-white border-r border-gray-200 flex-col justify-between hidden md:flex shrink-0 h-full overflow-y-auto">
                 <div>
                     <div className="p-6 pb-8">
-                        <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() => { if (onNavigate) onNavigate('admindashboard'); }}
+                            className="flex items-center gap-3 text-left"
+                            title="Go to admin dashboard"
+                        >
                             <div className="bg-[#1e285a] text-white p-2 rounded-lg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                             </div>
@@ -116,7 +194,7 @@ export default function InterviewScheduling({ onLogout, onNavigate }) {
                                 <h1 className="font-bold text-[#1e285a] leading-tight text-lg">Recruitment Management</h1>
                                 <p className="text-[9px] text-gray-500 font-bold tracking-widest mt-0.5 uppercase">PREMIUM EDITION</p>
                             </div>
-                        </div>
+                        </button>
                     </div>
                     <nav className="space-y-1">
                         <button onClick={() => { if (onNavigate) onNavigate('dashboard') }} className="flex items-center gap-3 px-6 py-3.5 text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-semibold transition-colors w-full text-left">
@@ -153,9 +231,7 @@ export default function InterviewScheduling({ onLogout, onNavigate }) {
             <main className="flex-1 overflow-x-hidden overflow-y-auto flex flex-col h-full bg-[#f8f9fa]">
                 {/* Header Navbar */}
                 <header className="bg-white border-b border-gray-100 flex items-center justify-between px-8 py-5 shrink-0 z-10 sticky top-0">
-                    <div>
-                        <h2 className="text-xl font-bold text-[#1e285a]">Atelier Talent</h2>
-                    </div>
+                    <div></div>
                     <div className="flex items-center gap-6">
                         <div className="relative hidden md:block">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} strokeWidth={2.5} />
@@ -183,6 +259,15 @@ export default function InterviewScheduling({ onLogout, onNavigate }) {
                             <h1 className="text-[2.2rem] font-bold text-[#1e285a] mb-2 tracking-tight">Interview Scheduling</h1>
                             <p className="text-gray-600 text-[15px]">Organize interview slots and automatically notify candidates.</p>
                         </div>
+                        <button
+                            type="button"
+                            onClick={handleExportInterviewPdf}
+                            disabled={interviews.length === 0 || isExportingPdf}
+                            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <Download size={18} />
+                            {isExportingPdf ? 'Exporting...' : 'Export'}
+                        </button>
                     </div>
 
                     {/* Success Notification Toast */}

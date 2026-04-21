@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   LayoutDashboard, Video, ClipboardCheck, Briefcase,
-  BarChart3, Zap, X, LogOut, Sparkles, MessageSquare, History, Database
+  Zap, X, LogOut, Sparkles, MessageSquare, History, Database
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Sidebar.css';
@@ -51,7 +51,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       title: "Administration",
       items: [
         { name: "Question Bank", icon: Database, path: "/student/QuestionBank" },
-        { name: "System Analytics", icon: BarChart3, path: "/student/SystemAnalytics" },
       ]
     }] : []),
   ];

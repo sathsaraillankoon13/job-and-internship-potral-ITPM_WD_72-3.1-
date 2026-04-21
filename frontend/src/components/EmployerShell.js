@@ -99,7 +99,12 @@ export default function EmployerShell({ activeKey, title, subtitle, children, co
         }`}
       >
         <div className="border-b border-white/15 px-6 py-7">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => navigate('/admin/dashboard')}
+            className="flex items-center gap-3 text-left"
+            title="Go to admin dashboard"
+          >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-skyBrand-500 to-skyBrand-900 text-base font-black text-white shadow-glow">
               CB
             </div>
@@ -109,7 +114,7 @@ export default function EmployerShell({ activeKey, title, subtitle, children, co
               </p>
               <p className="text-[11px] text-white/55">Employer Portal</p>
             </div>
-          </div>
+          </button>
         </div>
 
         <div className="px-4 py-5">

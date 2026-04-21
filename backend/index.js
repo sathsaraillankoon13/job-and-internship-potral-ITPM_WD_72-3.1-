@@ -21,6 +21,7 @@ const feedbackRoutes = require('./routes/feedbackRoutes');
 const questionsRoutes = require('./routes/questions');
 const interviewRoutes = require('./routes/interviewRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const assistantRoutes = require('./routes/assistantRoutes');
 
 
 
@@ -57,6 +58,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/interview", interviewRoutes);
 app.use("/api/recommendations", recommendationRoutes);
+app.use("/api/assistant", assistantRoutes);
 
 
 
@@ -97,9 +99,12 @@ app.use((error, req, res, next) => {
 // ====================== SERVER START ======================
 
 const startServer = async () => {
+  let dbConnected = false;
+
   try {
     // Connect to Database
     await connectDB();
+    dbConnected = true;
 
     // Seed Database (only in development)
     if (process.env.NODE_ENV !== "production") {
@@ -116,16 +121,17 @@ const startServer = async () => {
       });
     }, 60000); // 1 minute
 
-    // Start Express Server
-    app.listen(port, () => {
-      console.log(`🚀 Server running on http://localhost:${port}`);
-      console.log(`📊 Health check: http://localhost:${port}/api/health`);
-    });
-
   } catch (error) {
-    console.error("❌ Failed to start server:", error.message);
-    process.exit(1);
+    console.error("❌ Database initialization failed:", error.message);
+    console.warn("⚠️ Server will continue without database. DB-dependent endpoints may fail.");
   }
+
+  // Start Express Server even if DB is unavailable so non-DB routes can still work.
+  app.listen(port, () => {
+    console.log(`🚀 Server running on http://localhost:${port}`);
+    console.log(`📊 Health check: http://localhost:${port}/api/health`);
+    console.log(`🗄️ Database status: ${dbConnected ? "connected" : "disconnected"}`);
+  });
 };
 
 startServer();

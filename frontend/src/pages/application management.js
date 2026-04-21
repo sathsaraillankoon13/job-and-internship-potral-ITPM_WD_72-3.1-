@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     LayoutDashboard, Briefcase, Users, Calendar, HelpCircle, LogOut,
     Search, Bell, Filter, Download, FileText, CheckCircle, XCircle, Plus,
@@ -28,9 +28,99 @@ export default function ApplicationManagement({ onLogout, onNavigate }) {
     const [newApp, setNewApp] = useState({ candidateName: '', location: '', skills: '', education: '', jobId: 1 });
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editingApp, setEditingApp] = useState(null);
+    const [isExportingPdf, setIsExportingPdf] = useState(false);
 
     // Filter applications based on selected job
     const filteredApplications = applications.filter(app => app.jobId === selectedJobId);
+    const jobsById = useMemo(() => {
+        const map = new Map();
+        jobs.forEach((job) => {
+            map.set(Number(job.id), job);
+        });
+        return map;
+    }, [jobs]);
+
+    const handleExportPdf = async () => {
+        if (isExportingPdf || applications.length === 0) {
+            return;
+        }
+
+        setIsExportingPdf(true);
+        try {
+            const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
+                import('jspdf'),
+                import('jspdf-autotable'),
+            ]);
+
+            const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+            const generatedAt = new Date().toLocaleString();
+
+            doc.setFillColor(30, 40, 90);
+            doc.rect(0, 0, doc.internal.pageSize.getWidth(), 72, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.text('CAREERIR BRIDGE', 40, 30);
+            doc.setFontSize(12);
+            doc.text('Application Management - Full Report', 40, 50);
+
+            doc.setTextColor(71, 85, 105);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text(`Generated at: ${generatedAt}`, 40, 92);
+            doc.text(`Total applications: ${applications.length}`, 40, 106);
+
+            const rows = applications.map((app) => {
+                const job = jobsById.get(Number(app.jobId));
+                return [
+                    app.candidateName || '-',
+                    job?.title || `Job #${app.jobId ?? '-'}`,
+                    job?.department || '-',
+                    app.location || '-',
+                    app.education || '-',
+                    Array.isArray(app.skills) ? app.skills.join(', ') : String(app.skills || '-'),
+                    app.appliedDate || '-',
+                    app.status || 'Pending',
+                ];
+            });
+
+            autoTable(doc, {
+                startY: 122,
+                head: [[
+                    'Candidate Name',
+                    'Applied For',
+                    'Department',
+                    'Location',
+                    'Education',
+                    'Skills',
+                    'Date Applied',
+                    'Status',
+                ]],
+                body: rows,
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 5,
+                    textColor: [30, 41, 59],
+                    overflow: 'linebreak',
+                },
+                headStyles: {
+                    fillColor: [14, 165, 233],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                },
+                alternateRowStyles: {
+                    fillColor: [248, 250, 252],
+                },
+                margin: { left: 24, right: 24 },
+            });
+
+            doc.save(`application-management-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+        } catch (error) {
+            console.error('Failed to export applications PDF:', error);
+        } finally {
+            setIsExportingPdf(false);
+        }
+    };
 
     const handleStatusChange = (appId, newStatus) => {
         fetch(`http://localhost:5000/api/applications/${appId}`, {
@@ -121,10 +211,15 @@ export default function ApplicationManagement({ onLogout, onNavigate }) {
     return (
         <div className="flex h-screen bg-gray-50 font-sans">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 flex flex-col justify-between hidden md:flex">
+            <aside className="w-64 bg-white border-r border-gray-200 flex-col justify-between hidden md:flex">
                 <div>
                     <div className="p-6 pb-8">
-                        <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() => { if (onNavigate) onNavigate('admindashboard'); }}
+                            className="flex items-center gap-3 text-left"
+                            title="Go to admin dashboard"
+                        >
                             <div className="bg-[#1e285a] text-white p-2 rounded-lg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                             </div>
@@ -132,7 +227,7 @@ export default function ApplicationManagement({ onLogout, onNavigate }) {
                                 <h1 className="font-bold text-[#1e285a] leading-tight text-lg">Recruitment Management</h1>
                                 <p className="text-[9px] text-gray-500 font-bold tracking-widest mt-0.5 uppercase">PREMIUM EDITION</p>
                             </div>
-                        </div>
+                        </button>
                     </div>
                     <nav className="space-y-1">
                         <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-3 px-6 py-3.5 text-gray-500 hover:bg-gray-50 hover:text-gray-900 font-semibold transition-colors w-full text-left">
@@ -170,7 +265,7 @@ export default function ApplicationManagement({ onLogout, onNavigate }) {
                 {/* Header */}
                 <header className="bg-white border-b border-gray-100 px-8 flex items-center justify-between h-20">
                     <div className="flex items-center gap-8 h-full">
-                        <h2 className="text-xl font-bold text-[#1e285a]">Atelier Talent</h2>
+                        <h2 className="text-xl font-bold text-[#1e285a]">CareerBridge</h2>
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="relative hidden md:block">
@@ -201,9 +296,13 @@ export default function ApplicationManagement({ onLogout, onNavigate }) {
                             <p className="text-gray-600 text-[15px]">View and manage all candidates applying for active job posts.</p>
                         </div>
                         <div className="flex gap-3">
-                            <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-sm">
+                            <button
+                                onClick={handleExportPdf}
+                                disabled={applications.length === 0 || isExportingPdf}
+                                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                            >
                                 <Download size={18} />
-                                Export
+                                {isExportingPdf ? 'Exporting...' : 'Export'}
                             </button>
                             <button
                                 onClick={() => setIsApplyModalOpen(true)}

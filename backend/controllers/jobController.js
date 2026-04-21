@@ -19,6 +19,43 @@ function normalizeArrayInput(value) {
   return [];
 }
 
+function normalizeApprovalStatus(rawValue, fallback = "Approved") {
+  const allowed = new Set(["Pending", "Approved", "Rejected"]);
+  const normalized = String(rawValue || "").trim().toLowerCase();
+  const mapped = {
+    pending: "Pending",
+    approved: "Approved",
+    rejected: "Rejected",
+  }[normalized];
+
+  if (mapped && allowed.has(mapped)) {
+    return mapped;
+  }
+
+  return fallback;
+}
+
+function normalizeLifecycleStatus(rawStatus, startAt, expiresAt, fallbackJob = null) {
+  const normalized = String(rawStatus || "").trim().toLowerCase();
+  const mapped = {
+    scheduled: "Scheduled",
+    active: "Active",
+    expired: "Expired",
+    closed: "Closed",
+    draft: "Draft",
+  }[normalized];
+
+  if (mapped) {
+    return mapped;
+  }
+
+  if (fallbackJob) {
+    return getJobScheduleStatus(fallbackJob);
+  }
+
+  return getJobScheduleStatus({ startAt, expiresAt });
+}
+
 function toJobCard(job) {
   const item = typeof job.toObject === "function" ? job.toObject() : job;
   const status = getJobScheduleStatus(item);
@@ -30,14 +67,24 @@ function toJobCard(job) {
     stipend: item.salaryStipend,
     deadlineTag: getJobTimingLabel(item),
     status,
+    approvalStatus: normalizeApprovalStatus(item.approvalStatus),
     startAt: item.startAt || item.startDate,
     expiresAt: item.expiresAt || item.applicationDeadline,
   };
 }
 
-function buildJobPayload(body) {
-  const startAt = parseDateTimeValue(body.startAt || body.startDate);
-  const expiresAt = parseDateTimeValue(body.expiresAt || body.applicationDeadline, { defaultToEndOfDay: true });
+function buildJobPayload(body, existingJob = null) {
+  const startAt =
+    parseDateTimeValue(body.startAt || body.startDate) ||
+    (existingJob ? parseDateTimeValue(existingJob.startAt || existingJob.startDate) : null);
+
+  const expiresAt =
+    parseDateTimeValue(body.expiresAt || body.applicationDeadline, { defaultToEndOfDay: true }) ||
+    (existingJob
+      ? parseDateTimeValue(existingJob.expiresAt || existingJob.applicationDeadline, {
+          defaultToEndOfDay: true,
+        })
+      : null);
 
   return {
     title: body.title,
@@ -62,7 +109,16 @@ function buildJobPayload(body) {
     skills: normalizeArrayInput(body.requiredSkills || body.skills),
     salary: body.salaryStipend,
     applicants: Number(body.applicants || 0),
-    status: body.status,
+    status: normalizeLifecycleStatus(
+      body.status,
+      startAt,
+      expiresAt,
+      existingJob || { startAt, expiresAt }
+    ),
+    approvalStatus: normalizeApprovalStatus(
+      body.approvalStatus,
+      existingJob ? normalizeApprovalStatus(existingJob.approvalStatus) : "Approved"
+    ),
   };
 }
 
@@ -81,6 +137,7 @@ const restrictedApplicantEditFields = [
 async function createJob(req, res, next) {
   try {
     const payload = buildJobPayload(req.body);
+    payload.approvalStatus = "Pending";
 
     const newJob = new Job(payload);
     const job = await newJob.save();
@@ -92,7 +149,7 @@ async function createJob(req, res, next) {
 
 async function getAllJobs(req, res, next) {
   try {
-    const { category, search, audience, page, limit } = req.query;
+    const { category, search, audience, approvalStatus, page, limit } = req.query;
 
     const filter = {};
 
@@ -108,43 +165,28 @@ async function getAllJobs(req, res, next) {
       ];
     }
 
-    const jobs = await Job.find(filter).sort({ createdAt: -1 });
-    let cards = jobs.map((job) => {
-      const card = toJobCard(job);
-      const raw = typeof job.toObject === "function" ? job.toObject() : job;
-
-      return {
-        ...card,
-        sourceStatus: String(raw.status || "").trim(),
+    if (approvalStatus) {
+      filter.approvalStatus = {
+        $regex: `^${String(approvalStatus).trim()}$`,
+        $options: "i",
       };
-    });
+    }
+
+    const jobs = await Job.find(filter).sort({ createdAt: -1 });
+    let cards = jobs.map((job) => toJobCard(job));
 
     if (audience === "student") {
-      const visibleExpiredCutoff = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
-
-      cards = cards.filter((item) => {
-        const rawStatus = String(item.sourceStatus || "").toLowerCase().trim();
-
-        // STRICT: Only allow 'active' for students. Exclude 'scheduled' from discovery.
-        if (rawStatus === "active") {
-          return true;
-        }
-
-        if (item.status === "Active") {
-          return true;
-        }
-
-        if (item.status === "Expired") {
-          const expiresAt = item.expiresAt ? new Date(item.expiresAt) : null;
-          return Boolean(expiresAt && !Number.isNaN(expiresAt.getTime()) && expiresAt >= visibleExpiredCutoff);
-        }
-
-        return false;
-      });
+      cards = cards.filter(
+        (item) => String(item.approvalStatus || "Approved").toLowerCase().trim() === "approved"
+      );
 
       const parsedPage = Number(page);
       const parsedLimit = Number(limit);
-      const shouldPaginate = Number.isInteger(parsedPage) && parsedPage > 0 && Number.isInteger(parsedLimit) && parsedLimit > 0;
+      const shouldPaginate =
+        Number.isInteger(parsedPage) &&
+        parsedPage > 0 &&
+        Number.isInteger(parsedLimit) &&
+        parsedLimit > 0;
 
       if (shouldPaginate) {
         const start = (parsedPage - 1) * parsedLimit;
@@ -161,8 +203,6 @@ async function getAllJobs(req, res, next) {
         });
       }
     }
-
-    cards = cards.map(({ sourceStatus, ...rest }) => rest);
 
     res.json(cards);
   } catch (error) {
@@ -192,8 +232,20 @@ async function updateJob(req, res, next) {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    const update = buildJobPayload(req.body);
-    update.status = typeof req.body.status === "string" ? req.body.status : existingJob.status;
+    const update = buildJobPayload(req.body, existingJob);
+
+    if (typeof req.body.status !== "string") {
+      update.status = normalizeLifecycleStatus(
+        existingJob.status,
+        update.startAt,
+        update.expiresAt,
+        existingJob
+      );
+    }
+
+    if (typeof req.body.approvalStatus !== "string") {
+      update.approvalStatus = normalizeApprovalStatus(existingJob.approvalStatus);
+    }
 
     if ((existingJob.applicants || 0) > 0) {
       restrictedApplicantEditFields.forEach((field) => {
@@ -205,13 +257,35 @@ async function updateJob(req, res, next) {
       update.department = String(existingJob.department || "Technology").trim() || "Technology";
     }
 
-    // Applicants are controlled by submissions; do not allow update payloads to overwrite this counter.
     update.applicants = existingJob.applicants || 0;
 
     const job = await Job.findByIdAndUpdate(req.params.id, update, {
       new: true,
       runValidators: true,
     });
+
+    res.json(toJobCard(job));
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function setJobApprovalStatus(req, res, next) {
+  try {
+    const approvalStatus = normalizeApprovalStatus(req.body?.approvalStatus || req.body?.status, "");
+    if (!["Pending", "Approved", "Rejected"].includes(approvalStatus)) {
+      return res.status(400).json({ message: "Invalid approval status" });
+    }
+
+    const job = await Job.findByIdAndUpdate(
+      req.params.id,
+      { approvalStatus },
+      { new: true, runValidators: true }
+    );
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
 
     res.json(toJobCard(job));
   } catch (error) {
@@ -261,7 +335,10 @@ async function getJobApplications(req, res, next) {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    const submissions = await JobSubmission.find({ jobId: req.params.id }).sort({ appliedDate: -1, createdAt: -1 });
+    const submissions = await JobSubmission.find({ jobId: req.params.id }).sort({
+      appliedDate: -1,
+      createdAt: -1,
+    });
     res.json(submissions);
   } catch (error) {
     next(error);
@@ -275,7 +352,9 @@ function buildViewerKey(req) {
   }
 
   const ipRaw = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || req.ip || "unknown-ip";
-  const ip = String(Array.isArray(ipRaw) ? ipRaw[0] : ipRaw).split(",")[0].trim();
+  const ip = String(Array.isArray(ipRaw) ? ipRaw[0] : ipRaw)
+    .split(",")[0]
+    .trim();
   const userAgent = String(req.headers["user-agent"] || "unknown-agent");
   const hash = crypto.createHash("sha256").update(`${ip}|${userAgent}`).digest("hex");
   return `ip:${hash}`;
@@ -353,13 +432,14 @@ async function incrementJobView(req, res, next) {
 }
 
 module.exports = {
-  createJob,
   closeJob,
+  createJob,
   deleteJob,
   getAllJobs,
   getJobApplications,
   getJobById,
   incrementJobView,
+  setJobApprovalStatus,
   trackJobView,
   updateJob,
 };

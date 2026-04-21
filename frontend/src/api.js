@@ -96,6 +96,20 @@ export async function updateJob(jobId, payload) {
   return response.data;
 }
 
+export async function updateJobApproval(jobId, approvalStatus) {
+  const response = await api.patch(`/jobs/${jobId}/approval`, { approvalStatus });
+  emitJobsUpdated();
+  return response.data;
+}
+
+export async function approveJob(jobId) {
+  return updateJobApproval(jobId, "Approved");
+}
+
+export async function rejectJob(jobId) {
+  return updateJobApproval(jobId, "Rejected");
+}
+
 export async function closeJob(jobId) {
   const response = await api.patch(`/jobs/${jobId}/close`);
   emitJobsUpdated();
@@ -114,6 +128,27 @@ export async function createSubmission(payload) {
       "Content-Type": "multipart/form-data",
     },
   });
+  return response.data;
+}
+
+export async function sendAssistantMessage(payload) {
+  const response = await api.post("/assistant/message", payload);
+  return response.data;
+}
+
+export async function updateUser(userId, payload) {
+  const response = await api.put(`/users/${userId}`, payload);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("careerbridge:data-updated"));
+  }
+  return response.data;
+}
+
+export async function updateUserStatus(userId, status) {
+  const response = await api.patch(`/users/${userId}/status`, { status });
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("careerbridge:data-updated"));
+  }
   return response.data;
 }
 

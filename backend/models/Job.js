@@ -41,7 +41,13 @@ const jobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Scheduled", "Active", "Expired", "Closed", "Draft"],
-      default: "",
+      default: "Scheduled",
+      trim: true,
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Approved",
       trim: true,
     },
     applicationDeadline: { type: String, default: "", trim: true },

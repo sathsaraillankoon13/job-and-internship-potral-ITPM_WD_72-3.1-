@@ -134,7 +134,7 @@ function App() {
   };
 
   const isInternalPage = [
-    'profile', 'feedback', 'admindashboard'
+    'profile', 'feedback'
   ].includes(currentPage);
 
   const pageContent = renderPage();

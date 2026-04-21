@@ -38,6 +38,7 @@ function mapJob(job) {
     deadlineTag: job.deadlineTag || getJobTimingLabel(job),
     company: job.company || "CareerBridge",
     status: job.status || getJobScheduleStatus(job),
+    approvalStatus: job.approvalStatus || "Approved",
   };
 }
 
@@ -76,7 +77,7 @@ export default function OpportunitiesPage({ user }) {
 
       const data = await fetchJobs(params);
       const mapped = Array.isArray(data) ? data.map(mapJob) : Array.isArray(data?.items) ? data.items.map(mapJob) : [];
-      setJobs(mapped);
+      setJobs(mapped.filter((job) => String(job.approvalStatus || "Approved").toLowerCase() === "approved"));
       if (silent) {
         setError("");
       }

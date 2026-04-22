@@ -1,0 +1,28 @@
+/* Footer Styles */
+.footer-container {
+  @apply bg-gradient-to-r from-blue-800 via-blue-700 to-sky-600 border-t border-blue-300/50 py-5 px-6 lg:px-10 mt-auto shadow-[0_-4px_16px_rgba(30,64,175,0.15)];
+}
+
+.footer-content {
+  @apply max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4;
+}
+
+.footer-brand {
+  @apply flex items-center gap-2;
+}
+
+.footer-brand-icon {
+  @apply w-8 h-8 flex items-center justify-center transition-transform hover:scale-110;
+}
+
+.footer-brand-text {
+  @apply text-lg font-bold text-white tracking-tight;
+}
+
+.footer-brand-accent {
+  @apply text-sky-300;
+}
+
+.footer-copyright {
+  @apply text-blue-100/80 text-[12px] font-medium;
+}

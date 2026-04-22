@@ -1,0 +1,46 @@
+.page {
+  min-height: 100vh;
+  background-color: #f0f8fc;
+  color: #0f172a;
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #0c4a6e 100%);
+  padding: 4rem 1rem 3.5rem;
+  text-align: center;
+  color: white;
+}
+
+.heroTitle {
+  margin-top: 1.5rem;
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+  .heroTitle {
+    font-size: 4.5rem;
+  }
+}
+
+.heroSubtitle {
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sectionTitle {
+  font-size: 1.875rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.sectionTitleHighlight {
+  font-family: Georgia, serif;
+  font-style: italic;
+  color: #0284c7;
+}

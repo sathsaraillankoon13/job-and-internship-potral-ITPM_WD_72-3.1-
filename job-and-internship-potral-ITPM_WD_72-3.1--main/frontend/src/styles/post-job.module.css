@@ -1,0 +1,381 @@
+.page {
+  min-height: 100vh;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formCard {
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid #dbeafe;
+  background: #f0f8fc;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.1);
+}
+
+.formCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid #dbeafe;
+  background: linear-gradient(to right, rgba(224, 242, 254, 0.5), rgba(240, 248, 255, 0.5));
+  padding: 1rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .formCardHeader {
+    padding: 1rem 1.5rem;
+  }
+}
+
+.formCardIcon {
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: #0284c7;
+  color: white;
+  font-size: 1.125rem;
+}
+
+.formCardHeaderContent {
+  flex: 1;
+}
+
+.formCardTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: #1e3a8a;
+}
+
+.formCardSubtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.125rem;
+}
+
+.formCardContent {
+  padding: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .formCardContent {
+    padding: 1.5rem;
+  }
+}
+
+.formGrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.formRequired {
+  color: #dc2626;
+}
+
+.formInput {
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.formInput:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.formInput::placeholder {
+  color: #cbd5e1;
+}
+
+.formTextarea {
+  margin-top: 0.5rem;
+  width: 100%;
+  min-height: 5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.2s;
+}
+
+.formTextarea:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.formError {
+  margin-top: 0.25rem;
+  display: block;
+  font-size: 0.75rem;
+  color: #dc2626;
+}
+
+.formFullWidth {
+  grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+  .formFullWidth {
+    grid-column: span 2;
+  }
+}
+
+.skillsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skillsLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.skillTag {
+  border-radius: 9999px;
+  border: 1px solid #bfdbfe;
+  background: #dbeafe;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0284c7;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.skillTag:hover {
+  background: #bfdbfe;
+  border-color: #0284c7;
+}
+
+.addSkillButton {
+  border-radius: 9999px;
+  border: 2px dashed #bfdbfe;
+  background: #f0f8fc;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0284c7;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addSkillButton:hover {
+  border-color: #0284c7;
+  background: #e0f2fe;
+}
+
+.buttonGroupContainer {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .buttonGroupContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.buttonGroupLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.buttonOption {
+  border-radius: 9999px;
+  border: 1px solid #bfdbfe;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #f0f8fc;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buttonOption.active {
+  border-color: #0284c7;
+  background: #0284c7;
+  color: white;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: #dbeafe;
+  padding: 0.625rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkboxItem:hover {
+  border-color: #0284c7;
+  background: #bfdbfe;
+}
+
+.checkbox {
+  display: flex;
+  height: 1.25rem;
+  width: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  border: 2px solid #bfdbfe;
+  background: #f0f8fc;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkbox.checked {
+  border-color: #0284c7;
+  background: #0284c7;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.checkboxLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.eligibilityGrid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .eligibilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.draftButton {
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: #f0f8fc;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.draftButton:hover {
+  background: #e0f2fe;
+  border-color: #0284c7;
+}
+
+.previewButton {
+  border-radius: 0.5rem;
+  border: 1px solid #bfdbfe;
+  background: #dbeafe;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0284c7;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.previewButton:hover {
+  background: #bfdbfe;
+  border-color: #0284c7;
+}
+
+.publishButton {
+  border-radius: 0.5rem;
+  border: none;
+  background: linear-gradient(to right, #059669, #10b981);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.publishButton:hover {
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+  transform: translateY(-2px);
+}
+
+.formMessage {
+  border-radius: 0.5rem;
+  background: #fef2f2;
+  padding: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #b91c1c;
+  margin-top: 0.5rem;
+}

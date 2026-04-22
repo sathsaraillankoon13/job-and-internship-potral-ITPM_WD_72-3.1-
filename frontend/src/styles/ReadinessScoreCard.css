@@ -1,0 +1,112 @@
+/* ===== READINESS SCORE CARD ===== */
+.rsc-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 20px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.rsc-card:hover {
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Header */
+.rsc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rsc-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.rsc-status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Score row */
+.rsc-score-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.rsc-score-num {
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.rsc-trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+  background: #d1fae5;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+
+/* SVG graph */
+.rsc-graph-wrapper {
+  width: 100%;
+}
+
+.rsc-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Legend */
+.rsc-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.rsc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rsc-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rsc-legend-dash {
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  border-top: 2px dashed currentColor;
+  background: transparent;
+  border-color: inherit;
+}
+
+.rsc-legend-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+}

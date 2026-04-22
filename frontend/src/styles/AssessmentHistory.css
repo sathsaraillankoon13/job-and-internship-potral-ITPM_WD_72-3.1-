@@ -1,0 +1,95 @@
+/* AssessmentHistory Styles */
+.history-container {
+  @apply flex-1 bg-[#D0E7FF] w-full flex flex-col font-sans mb-16 text-slate-900;
+}
+
+.history-layout {
+  @apply max-w-5xl mx-auto w-full px-6 lg:px-10 pt-8 flex flex-col gap-6 pb-16;
+}
+
+/* Header Section */
+.history-header {
+  @apply flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8;
+}
+
+.history-title {
+  @apply text-3xl font-extrabold text-slate-900 tracking-tight leading-none mb-2;
+}
+
+.history-badge {
+  @apply inline-flex items-center gap-2 bg-blue-50 text-blue-600 font-bold text-[11px] px-3 py-1 rounded-lg uppercase tracking-wider border border-blue-100 mb-4;
+}
+
+.history-description {
+  @apply text-slate-500 font-medium text-[14px] max-w-lg leading-relaxed;
+}
+
+/* Search & Filter Header */
+.history-search-input {
+  @apply pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] text-slate-900 font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50 transition-all w-56;
+}
+
+.history-filter-btn {
+  @apply p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-blue-600 transition-colors shadow-sm;
+}
+
+/* History Table/List Section */
+.history-list-section {
+  @apply space-y-3;
+}
+
+.history-card {
+  @apply bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4 transition-all hover:shadow-md;
+}
+
+.history-card-info {
+  @apply flex items-center gap-4 flex-1;
+}
+
+.history-icon-box {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center text-blue-600 bg-blue-50 shrink-0 border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300;
+}
+
+.history-card-text {
+  @apply flex flex-col gap-0.5;
+}
+
+.history-card-title {
+  @apply text-[15px] font-bold text-slate-900 tracking-tight;
+}
+
+.history-card-meta {
+  @apply flex items-center gap-3 text-slate-400 font-bold text-[11px] uppercase tracking-wider;
+}
+
+.history-status-badge {
+  @apply px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider;
+}
+
+.status-passed {
+  @apply bg-emerald-50 text-emerald-600 border border-emerald-100;
+}
+
+.status-failed {
+  @apply bg-red-50 text-red-600 border border-red-100;
+}
+
+.history-card-stats {
+  @apply flex items-center gap-8 pr-2;
+}
+
+.history-stat-item {
+  @apply flex flex-col items-center md:items-start;
+}
+
+.history-stat-label {
+  @apply text-slate-400 font-bold text-[9px] uppercase tracking-widest mb-0.5;
+}
+
+.history-stat-value {
+  @apply text-[14px] font-bold text-slate-700 tracking-tight;
+}
+
+.view-results-btn {
+  @apply flex items-center gap-1.5 bg-[#0238AD] text-white font-bold text-[10px] px-4 py-2 rounded-lg uppercase tracking-wider hover:bg-blue-600 transition-all active:scale-95;
+}

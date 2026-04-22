@@ -1,0 +1,130 @@
+.recommendations-container {
+  @apply flex-1 bg-[#D0E7FF] w-full flex flex-col font-sans pb-16 text-slate-900;
+}
+
+.recommendations-header {
+  @apply bg-gradient-to-r from-[#0238AD] to-[#01257d] border-b border-blue-900/50 pt-8 pb-10 px-6 lg:px-10 text-white rounded-b-[50px] shadow-2xl relative overflow-hidden;
+}
+
+.recommendations-header::after {
+  content: '';
+  @apply absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 transform translate-x-20;
+}
+
+.recommendations-title {
+  @apply text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-lg;
+}
+
+.recommendations-subtitle {
+  @apply text-blue-100/90 text-[15px] md:text-[17px] font-bold max-w-2xl leading-relaxed;
+}
+
+.recommendations-content {
+  @apply max-w-7xl mx-auto w-full px-6 lg:px-10 mt-10;
+}
+
+/* Readiness Card */
+.readiness-card {
+  @apply bg-white/10 backdrop-blur-md border border-white/20 p-2 px-4 rounded-2xl flex items-center gap-4 shadow-xl;
+}
+
+/* Filter Section */
+.filter-section {
+  @apply bg-white p-3 rounded-2xl border border-slate-200 shadow-xl flex flex-col lg:flex-row gap-3 mb-10 items-center;
+}
+
+.recommendations-pathway-pill {
+  @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold shadow-sm;
+}
+
+.category-chips {
+  @apply flex flex-wrap gap-2;
+}
+
+.category-chip {
+  @apply rounded-xl border border-slate-100 bg-slate-50 px-4 py-2 text-[11px] font-bold text-slate-500 transition-all hover:bg-blue-50 hover:text-blue-700;
+}
+
+.category-chip-active {
+  @apply border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-200;
+}
+
+.search-bar-wrapper {
+  @apply flex-1 relative w-full lg:w-auto;
+}
+
+.search-bar-icon {
+  @apply absolute left-4 top-1/2 -translate-y-1/2 text-slate-400;
+}
+
+.search-bar-input {
+  @apply w-full bg-slate-50 border border-slate-100 rounded-xl py-2.5 px-11 text-[13px] font-medium text-slate-700 focus:ring-4 focus:ring-blue-500/5 focus:border-blue-400 outline-none transition-all placeholder-slate-400;
+}
+
+/* Jobs Grid */
+.jobs-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4;
+}
+
+/* Job Card */
+.job-card {
+  @apply bg-white border border-slate-100 rounded-xl p-3 flex flex-col transition-all hover:shadow-md hover:border-blue-200;
+}
+
+.job-card-image-wrap {
+  @apply relative mb-5 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50;
+}
+
+.job-card-image {
+  @apply block h-32 w-full object-cover;
+}
+
+.job-card-image-badge {
+  @apply absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-800 shadow-sm backdrop-blur-md;
+}
+
+/* Score Badges */
+.expert-match { @apply text-emerald-700 bg-emerald-50; }
+.strong-match { @apply text-blue-700 bg-blue-50; }
+.needs-improvement { @apply text-amber-700 bg-amber-50; }
+
+.job-card-header {
+  @apply flex justify-between items-start mb-4;
+}
+
+.job-title {
+  @apply text-xl font-bold text-slate-900 tracking-tight leading-tight mb-1;
+}
+
+.match-high { @apply bg-emerald-50 text-emerald-600 border-emerald-100; }
+.match-medium { @apply bg-amber-50 text-amber-600 border-amber-100; }
+.match-low { @apply bg-red-50 text-red-600 border-red-100; }
+
+.match-progress-bg { @apply h-1.5 bg-slate-100 rounded-full overflow-hidden; }
+
+.job-tag {
+  @apply px-3 py-1 bg-slate-50 text-slate-600 border border-slate-100 rounded-lg text-[10px] font-bold;
+}
+
+.job-card-actions {
+  @apply flex gap-3 mt-6 pt-5 border-t border-slate-50;
+}
+
+/* Resource Card Adjustments */
+.study-path-header {
+  @apply flex items-center justify-center gap-4 mb-10 mt-4;
+}
+
+.resource-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.job-card {
+  animation: fadeIn 0.6s ease-out forwards;
+}

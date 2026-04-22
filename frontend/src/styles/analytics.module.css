@@ -1,0 +1,241 @@
+.page {
+  min-height: 100vh;
+}
+
+.statsGrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 1280px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.1);
+}
+
+.statCardTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #3b82f6, #38bdf8);
+}
+
+.statIcon {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  background: #dbeafe;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.statTrend {
+  border-radius: 9999px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.statTrendUp {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statTrendDown {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.statValue {
+  margin-top: 1rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.875rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.statLabel {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.chartsGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 1280px) {
+  .chartsGrid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+
+.chartCard {
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.1);
+}
+
+.chartCardHeader {
+  border-bottom: 1px solid #dbeafe;
+  padding: 1rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .chartCardHeader {
+    padding: 1rem 1.5rem;
+  }
+}
+
+.chartTitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 900;
+}
+
+.chartSubtitle {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.chartContent {
+  padding: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .chartContent {
+    padding: 1.5rem;
+  }
+}
+
+.chartContainer {
+  border-radius: 0.75rem;
+  background: linear-gradient(to bottom, #f0f9ff, #f8fafc);
+  padding: 1rem;
+}
+
+.chartBars {
+  display: flex;
+  height: 11rem;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.chartBar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.chartBarPrimary {
+  width: 100%;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  background: linear-gradient(to bottom, #60a5fa, #1e40af);
+}
+
+.chartBarSecondary {
+  width: 100%;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  background: linear-gradient(to bottom, #7dd3fc, #0ea5e9);
+}
+
+.chartLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-top: 0.375rem;
+}
+
+.topPerformerCard {
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.1);
+  margin-bottom: 1.25rem;
+}
+
+.topPerformerContent {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: linear-gradient(to right, #1e40af, #0ea5e9);
+  padding: 1.25rem;
+  color: white;
+}
+
+.topPerformerTitle {
+  margin-top: 0.75rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.performanceTableRow {
+  display: grid;
+  gap: 0.5rem;
+  border-bottom: 1px solid #f0f9ff;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 1024px) {
+  .performanceTableRow {
+    grid-template-columns: 2fr 1fr 1fr 1.2fr 1fr;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+.performanceJobTitle {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.performanceApplications {
+  font-weight: 700;
+  color: #0284c7;
+}
+
+.conversionRate {
+  font-weight: 700;
+  color: #059669;
+}
+
+.conversionBar {
+  margin-top: 0.25rem;
+  height: 0.375rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #dbeafe;
+}
+
+.conversionBarFill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #3b82f6, #38bdf8);
+}

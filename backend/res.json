@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "recommendedJobs": [
+    {
+      "jobTitle": "React Frontend Engineer",
+      "company": "Product",
+      "compatibilityScore": 92.5,
+      "matchCategory": "Expert Match",
+      "whyMatched": "Your exceptional 100% score in React demonstrates an expert-level understanding, making you an ideal candidate for this role. While your interview performance was solid, refining STAR method responses will elevate your candidacy further."
+    },
+    {
+      "jobTitle": "Software Engineer (Full Stack)",
+      "company": "Core Engineering",
+      "compatibilityScore": 92.5,
+      "matchCategory": "Expert Match",
+      "whyMatched": "Your exceptional 100% score in React demonstrates an expert-level understanding, making you an ideal candidate for this role. While your interview performance was solid, refining STAR method responses will elevate your candidacy further."
+    }
+  ],
+  "hasHistory": true,
+  "assessmentDate": "2026-04-19T19:15:21.483Z",
+  "interviewDate": "2026-04-08T00:26:55.503Z"
+}

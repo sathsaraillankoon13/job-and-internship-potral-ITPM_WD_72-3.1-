@@ -1,0 +1,200 @@
+[
+  {
+    "_id": "69e529c9bdf6253e0c653625",
+    "userId": "guest_user",
+    "quizTitle": "Software Developer: React",
+    "timeTaken": "0:11",
+    "score": 4,
+    "totalQuestions": 4,
+    "percentage": 100,
+    "difficulty": "Beginner",
+    "status": "Passed",
+    "questions": [
+      {
+        "_id": "69d59aa0739681ecb6e077f6",
+        "questionText": "Which hook is used to handle side effects in a React functional component?",
+        "options": {
+          "A": "useState",
+          "B": "useEffect",
+          "C": "useContext",
+          "D": "useReducer"
+        },
+        "correctAnswer": "B",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "useEffect is the primary hook for side effects like API calls and DOM manipulation.",
+        "createdAt": "2026-04-08T00:00:32.841Z",
+        "__v": 0,
+        "question": "Which hook is used to handle side effects in a React functional component?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077f8",
+        "questionText": "Which of the following is true about Virtual DOM?",
+        "options": {
+          "A": "It is a direct copy of the real DOM",
+          "B": "It is slower than the real DOM",
+          "C": "It is an in-memory representation of the UI",
+          "D": "It updates the entire page on every change"
+        },
+        "correctAnswer": "C",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "The Virtual DOM is a lightweight copy of the real DOM used by React to compute minimal updates.",
+        "createdAt": "2026-04-08T00:00:32.845Z",
+        "__v": 0,
+        "question": "Which of the following is true about Virtual DOM?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077f9",
+        "questionText": "How do you pass a prop from parent to child component?",
+        "options": {
+          "A": "Using state",
+          "B": "By adding it as an attribute to the child component",
+          "C": "Using refs",
+          "D": "Using context API only"
+        },
+        "correctAnswer": "B",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "Props are passed to components via attributes in JSX.",
+        "createdAt": "2026-04-08T00:00:32.846Z",
+        "__v": 0,
+        "question": "How do you pass a prop from parent to child component?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077fa",
+        "questionText": "What does JSX stand for?",
+        "options": {
+          "A": "JavaScript XML",
+          "B": "JavaScript Extension",
+          "C": "JSON XML",
+          "D": "Java Syntax Extension"
+        },
+        "correctAnswer": "A",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "JSX stands for JavaScript XML, a syntax extension for JavaScript used with React.",
+        "createdAt": "2026-04-08T00:00:32.847Z",
+        "__v": 0,
+        "question": "What does JSX stand for?"
+      }
+    ],
+    "selectedAnswers": {
+      "0": "B",
+      "1": "C",
+      "2": "B",
+      "3": "A"
+    },
+    "date": "2026-04-19T19:15:21.483Z",
+    "createdAt": "2026-04-19T19:15:21.485Z",
+    "updatedAt": "2026-04-19T19:15:21.485Z",
+    "__v": 0
+  },
+  {
+    "_id": "69e5281cbdf6253e0c653615",
+    "userId": "guest_user",
+    "quizTitle": "Software Developer: React",
+    "timeTaken": "0:13",
+    "score": 4,
+    "totalQuestions": 4,
+    "percentage": 100,
+    "difficulty": "Beginner",
+    "status": "Passed",
+    "questions": [
+      {
+        "_id": "69d59aa0739681ecb6e077f6",
+        "questionText": "Which hook is used to handle side effects in a React functional component?",
+        "options": {
+          "A": "useState",
+          "B": "useEffect",
+          "C": "useContext",
+          "D": "useReducer"
+        },
+        "correctAnswer": "B",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "useEffect is the primary hook for side effects like API calls and DOM manipulation.",
+        "createdAt": "2026-04-08T00:00:32.841Z",
+        "__v": 0,
+        "question": "Which hook is used to handle side effects in a React functional component?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077f8",
+        "questionText": "Which of the following is true about Virtual DOM?",
+        "options": {
+          "A": "It is a direct copy of the real DOM",
+          "B": "It is slower than the real DOM",
+          "C": "It is an in-memory representation of the UI",
+          "D": "It updates the entire page on every change"
+        },
+        "correctAnswer": "C",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "The Virtual DOM is a lightweight copy of the real DOM used by React to compute minimal updates.",
+        "createdAt": "2026-04-08T00:00:32.845Z",
+        "__v": 0,
+        "question": "Which of the following is true about Virtual DOM?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077f9",
+        "questionText": "How do you pass a prop from parent to child component?",
+        "options": {
+          "A": "Using state",
+          "B": "By adding it as an attribute to the child component",
+          "C": "Using refs",
+          "D": "Using context API only"
+        },
+        "correctAnswer": "B",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "Props are passed to components via attributes in JSX.",
+        "createdAt": "2026-04-08T00:00:32.846Z",
+        "__v": 0,
+        "question": "How do you pass a prop from parent to child component?"
+      },
+      {
+        "_id": "69d59aa0739681ecb6e077fa",
+        "questionText": "What does JSX stand for?",
+        "options": {
+          "A": "JavaScript XML",
+          "B": "JavaScript Extension",
+          "C": "JSON XML",
+          "D": "Java Syntax Extension"
+        },
+        "correctAnswer": "A",
+        "pathway": "Software Developer",
+        "testDomain": "Technical Quiz",
+        "skill": "React",
+        "difficulty": "Beginner",
+        "explanation": "JSX stands for JavaScript XML, a syntax extension for JavaScript used with React.",
+        "createdAt": "2026-04-08T00:00:32.847Z",
+        "__v": 0,
+        "question": "What does JSX stand for?"
+      }
+    ],
+    "selectedAnswers": {
+      "0": "B",
+      "1": "C",
+      "2": "B",
+      "3": "A"
+    },
+    "date": "2026-04-19T19:08:12.527Z",
+    "createdAt": "2026-04-19T19:08:12.532Z",
+    "updatedAt": "2026-04-19T19:08:12.532Z",
+    "__v": 0
+  }
+]

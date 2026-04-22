@@ -1,7 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 
-function Dashboard({ userData }) {
+function Dashboard({ userData, onNavigate }) {
+    const navigate = useNavigate();
+
+    const goToFeedback = () => {
+        if (onNavigate) onNavigate('feedback');
+        else navigate('/admin/feedbacks');
+    };
+
+    const goToAdminDashboard = () => {
+        if (onNavigate) onNavigate('admindashboard');
+        else navigate('/admin/dashboard');
+    };
+
     return (
         <div className="dashboard-content-wrapper">
             {/* Page Header */}
@@ -10,7 +23,9 @@ function Dashboard({ userData }) {
                     <h2>System Dashboard</h2>
                     <p>Welcome back! Here's your overview for today.</p>
                 </div>
-                <div className="header-actions">
+                <div className="header-actions" style={{ display: 'flex', gap: '12px' }}>
+                    <button className="primary-btn" style={{ background: '#0284c7' }} onClick={goToFeedback}>Feedback</button>
+                    <button className="primary-btn" style={{ background: '#4f46e5' }} onClick={goToAdminDashboard}>Admin Dashboard</button>
                     <button className="primary-btn">+ New Entry</button>
                 </div>
             </div>

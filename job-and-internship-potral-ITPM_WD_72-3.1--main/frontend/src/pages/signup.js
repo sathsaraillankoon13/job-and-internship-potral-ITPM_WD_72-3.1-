@@ -7,6 +7,7 @@ function Signup({ onNavigate, setLoggedUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('student');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -25,12 +26,17 @@ function Signup({ onNavigate, setLoggedUser }) {
         email,
         password,
         firstName: username,
-        lastName: " "
+        lastName: " ",
+        role: role
       });
 
       const data = response.data;
       if (setLoggedUser) setLoggedUser(data);
-      onNavigate('home');
+      
+      const userRole = (data.role || role).toLowerCase();
+      if (userRole === 'admin') onNavigate('/admin/dashboard');
+      else if (userRole === 'employer' || userRole === 'company') onNavigate('/employer/dashboard');
+      else onNavigate('/student/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'We could not create your account at this time.');
     } finally {
@@ -98,6 +104,23 @@ function Signup({ onNavigate, setLoggedUser }) {
               <div className="mb-8 text-center md:text-left">
                 <h3 className="text-3xl font-black text-white mb-1">Create Account</h3>
                 <p className="text-slate-400 text-sm font-medium">Join thousands of students building their future.</p>
+              </div>
+
+              <div className="flex bg-white/10 p-1 rounded-xl mb-6">
+                  <button
+                    type="button"
+                    onClick={() => setRole('student')}
+                    className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${role === 'student' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Student
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('admin')}
+                    className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${role === 'admin' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    Admin
+                  </button>
               </div>
 
               <form className="space-y-4" onSubmit={handleSignup}>

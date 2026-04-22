@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 // REGISTER
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, firstName, lastName, email } = req.body;
+    const { username, password, firstName, lastName, email, role } = req.body;
     
     let userExists = await User.findOne({ username });
     if (userExists) {
@@ -26,7 +26,8 @@ router.post('/register', async (req, res) => {
       email,
       firstName,
       lastName,
-      password: hashedPassword
+      password: hashedPassword,
+      role: role || 'student'
     });
 
     await newUser.save();
